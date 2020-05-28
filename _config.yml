@@ -9,12 +9,12 @@ site-twitter: #if your site has a twitter account, enter it here
 # Author Settings
 author: David Ramirez # add your name
 author-img: the-little-one-cover.jpg # add your photo
-about-author: I am a data enthusist, market research, and a dog dad # add description
+about-author: I am a data enthusiast, market researcher, and dog dad # add description
 social-twitter: dave_e_ramirez # add your Twitter handle
 social-facebook: # add your Facebook handle
 social-github: deramirez1 # add your Github handle
 social-linkedin: davideramirez # add your Linkedin handle
-social-email: # add your Email address
+social-email: deramirez1@gmail.com # add your Email address
 
 # Disqus
 discus-identifier: # add your discus identifier
