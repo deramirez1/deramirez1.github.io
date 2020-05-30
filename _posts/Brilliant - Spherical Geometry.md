@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Brilliant.org: Spherical Geometry"
+date: 2020-05-30 17:30:20 +0300
+description: An introduction to Spherical Geometry
+img:  '/assests/img/Triangles_(spherical_geometry).jpg'
+---
 # Brilliant.org: Spherical Geometry
 
 I'm quiet the avid proponent of [Brilliant.org](https://brilliant.org/). It's a great way to refine, build, and practice new mathematical concepts. I'm going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.
