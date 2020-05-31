@@ -1,4 +1,4 @@
-title: Hello, world! I'm David Ramirez
+title: David Ramirez-Blog
 description: > # this means to ignore newlines until "baseurl:"
   I'm a market research consultant, graduate from the University of Wisconsin-Madison.
 permalink: ':title/'
@@ -28,6 +28,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
   - jemoji
+  - jekyll-katex
 
 paginate: 8
 paginate_path: "/page/:num/"
