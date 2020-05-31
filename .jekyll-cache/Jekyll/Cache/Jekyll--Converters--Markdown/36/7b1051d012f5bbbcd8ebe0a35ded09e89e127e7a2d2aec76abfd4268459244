@@ -1,0 +1,119 @@
+I"Q6<p>I’m quiet the avid proponent of <a href="https://brilliant.org/">Brilliant.org</a>. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.</p>
+
+<p>If you want to follow along you can refer to this <a href="https://brilliant.org/wiki/spherical-geometry/">wiki</a>.</p>
+
+<h2 id="spherical-geometry">Spherical Geometry</h2>
+
+<p>Spherical geometry is the study of objects on a sphere. It’s similar to Euclidean geometry in that lines, points, and angles are the main tools for understanding those objects. There are three main differences though:</p>
+
+<ol>
+  <li>There are no parallel lines in spherical geometry. In fact, all great circles, which is the plane that intersects the center of mass of the sphere, intersects in two antipodal points, opposite points of the sphere. See picture below. Straight lines are great circles.</li>
+  <li>Angles in a triangle (each side of which is an arc of a great circle) add up to more than 180 degrees.</li>
+  <li>Line segments (arcs of great circles) have bounded length, and regions on the surface of the sphere have bounded area.</li>
+</ol>
+
+<h3 id="why-learn-about-spherical-geometry">Why learn about spherical geometry?</h3>
+<p>If you’re interested in understanding angles, areas, and distances on Earth this is a very important field. It’s relevant for navigation, cosmology, astronomey, and applications of stereographic projection, think maps (cartography).</p>
+
+<p>I’ll only use numpy to help illustrate some of the properties of spherical geometry and play around with some examples.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+</code></pre></div></div>
+
+<h3 id="the-minimal-distance">The minimal distance</h3>
+<p><a href="https://en.wikipedia.org/wiki/Great-circle_distance">The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.</a> The distance between two points is therefore $R\phi$, where $R$ is the radius of the sphere and $\phi$ is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.</p>
+
+<h4 id="example">Example:</h4>
+
+<p>Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$?</p>
+
+<p>Let’s break this down. We received two vectors, $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$, our radius is 2, and now we need our equation. There are several version of equations we could use, but to stay consistent with the training material on Brilliant I’ll use Vector version:</p>
+
+\[d = R\Delta\phi \\n
+R^{2}\Delta\phi = \cos(n_{1} \cdot n_{2} \cdot n_{3})\]
+
+<p>Where $d$ is the distance on the sphere, $R$ is the radius of the sphere, and $n_{1}$, $n_{2}$, and $n_{3}$ are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition’s tangnet line on the sphere. $n_{3}$ is the square root of the radius, denoting the length to the tangent line.</p>
+
+<p>Using the vector equation we need to find the <a href="https://mathworld.wolfram.com/DotProduct.html">dot product</a> of the two vectors. From there we can find the angle, and then the distance using the radius, $R$.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># set up the matrix
+</span>
+<span class="n">A</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+
+<span class="c1"># get the dot product
+</span><span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">dot_product</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.0000000000000004
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">R</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># radius
+</span><span class="n">ϕ</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot_product</span><span class="o">/</span><span class="p">(</span><span class="n">R</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># our angle
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Our angle is equal to: "</span><span class="p">,</span> <span class="n">ϕ</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"This is 1/3 of π: "</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Our angle is equal to:  1.0471975511965976
+This is 1/3 of π:  1.0471975511965976
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># therefore, the distance is
+</span><span class="n">Rϕ</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="n">ϕ</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"The minimal distance given the two vectors is: "</span><span class="p">,</span> <span class="n">Rϕ</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"This is equal to 2π/3: "</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The minimal distance given the two vectors is:  2.0943951023931953
+This is equal to 2π/3:  2.0943951023931953
+</code></pre></div></div>
+
+<p>Now that we have a functional example, let’s extend this to allow for many points that might come in as vectors.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">spherical_distance_vectors</span><span class="p">(</span><span class="n">point_A</span><span class="p">,</span> <span class="n">point_B</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+    <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">point_A</span><span class="p">,</span> <span class="n">point_B</span><span class="p">)</span>
+    <span class="n">ϕ</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot_product</span> <span class="o">/</span> <span class="p">(</span><span class="n">radius</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">ϕ</span>
+    <span class="k">return</span> <span class="k">print</span><span class="p">(</span><span class="s">"The distance between points "</span><span class="p">,</span> <span class="n">point_A</span><span class="p">,</span> <span class="s">" and "</span><span class="p">,</span> <span class="n">point_B</span><span class="p">,</span><span class="s">" is equal to: "</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vectors</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random_sample</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># create a matrix (x , 3). I picked 5 by 3.
+</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">20.</span> <span class="c1"># set the radius
+</span><span class="n">vectors</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span> <span class="c1"># append the radius to the last column
+</span><span class="n">vectors</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[0.97650983, 9.49586762, 4.47213595],
+       [2.44788589, 6.97879146, 4.47213595],
+       [6.97401817, 6.24361927, 4.47213595],
+       [7.81830762, 8.45201872, 4.47213595],
+       [1.77762095, 4.22570549, 4.47213595]])
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="n">combinations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># generate a genertic index list to use to get the right points without duplicate analysis
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">combinations</span><span class="p">)):</span>
+    <span class="n">spherical_distance_vectors</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">vectors</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">radius</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The distance between points  [0.97650983 9.49586762 4.47213595]  and  [2.44788589 6.97879146 4.47213595]  is equal to:  26.94579853707037
+The distance between points  [0.97650983 9.49586762 4.47213595]  and  [6.97401817 6.24361927 4.47213595]  is equal to:  27.07703256374968
+The distance between points  [0.97650983 9.49586762 4.47213595]  and  [7.81830762 8.45201872 4.47213595]  is equal to:  25.953575051759703
+The distance between points  [0.97650983 9.49586762 4.47213595]  and  [1.77762095 4.22570549 4.47213595]  is equal to:  28.310331106013393
+The distance between points  [2.44788589 6.97879146 4.47213595]  and  [6.97401817 6.24361927 4.47213595]  is equal to:  27.355872187712514
+The distance between points  [2.44788589 6.97879146 4.47213595]  and  [7.81830762 8.45201872 4.47213595]  is equal to:  26.459178739412458
+The distance between points  [2.44788589 6.97879146 4.47213595]  and  [1.77762095 4.22570549 4.47213595]  is equal to:  28.715643649502418
+The distance between points  [6.97401817 6.24361927 4.47213595]  and  [7.81830762 8.45201872 4.47213595]  is equal to:  24.938467908836166
+The distance between points  [6.97401817 6.24361927 4.47213595]  and  [1.77762095 4.22570549 4.47213595]  is equal to:  28.466201476996797
+The distance between points  [7.81830762 8.45201872 4.47213595]  and  [1.77762095 4.22570549 4.47213595]  is equal to:  27.91742570780185
+</code></pre></div></div>
+
+<p>With that, I’m going to call it. I covered how to use vectors to find the distances between two points on a sphere. We then extended that example to a function to use for any situation.</p>
+:ET
