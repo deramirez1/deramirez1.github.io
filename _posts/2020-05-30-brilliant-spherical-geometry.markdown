@@ -15,11 +15,11 @@ If you want to follow along you can refer to this [wiki](https://brilliant.org/w
 
 Spherical geometry is the study of objects on a sphere. It's similar to Euclidean geometry in that lines, points, and angles are the main tools for understanding those objects. There are three main differences though: 
 
-1. There are no parallel lines in spherical geometry. In fact, all great circles, which is the plane that intersects the center of mass of the sphere, intersects in two antipodal points, opposite points of the sphere. See picture below. Straight lines are great circles.
+1. There are no parallel lines in spherical geometry. In fact, all great circles, which is the plane that intersects the center of mass of the sphere, intersects in two antipodal points, opposite points of the sphere. __Straight lines are great circles__.
 2. Angles in a triangle (each side of which is an arc of a great circle) add up to more than 180 degrees.
 3. Line segments (arcs of great circles) have bounded length, and regions on the surface of the sphere have bounded area.
 
-### Why learn about spherical geometry? 
+## Why learn about spherical geometry? 
 If you're interested in understanding angles, areas, and distances on Earth this is a very important field. It's relevant for navigation, cosmology, astronomey, and applications of stereographic projection, think maps (cartography). 
 
 I'll only use numpy to help illustrate some of the properties of spherical geometry and play around with some examples.
@@ -29,7 +29,7 @@ I'll only use numpy to help illustrate some of the properties of spherical geome
 import numpy as np
 ```
 
-### The minimal distance
+## The minimal distance
 
 [The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.](https://en.wikipedia.org/wiki/Great-circle_distance) The distance between two points is therefore $R\phi$, where $R$ is the radius of the sphere and $\phi$ is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.
 
