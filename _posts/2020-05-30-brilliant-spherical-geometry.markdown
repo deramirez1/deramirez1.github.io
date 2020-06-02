@@ -36,7 +36,7 @@ import numpy as np
 ### Example:
 Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$?
 
-Let's break this down. We received two vectors, $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$, our radius is 2, and now we need our equation. There are several version of equations we could use, but to stay consistent with the training material on Brilliant I'll use Vector version:
+Let's break this down. We received two vectors, $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$, our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I'll use the Vector version:
 
 $d = R\Delta\phi$ \\
 $R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})$
