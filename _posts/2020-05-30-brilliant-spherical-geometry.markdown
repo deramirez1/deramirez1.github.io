@@ -7,7 +7,7 @@ description: An introduction to Spherical Geometry
 img:  Triangles_spherical_geometry.jpg
 tag: ['Math','Geometry','Linear Algebra']
 ---
-I'm quiet the avid proponent of [Brilliant.org](https://brilliant.org/). It's a great way to refine, build, and practice new mathematical concepts. I'm going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.
+I'm quite the avid proponent of [Brilliant.org](https://brilliant.org/). It's a great way to refine, build, and practice new mathematical concepts. I'm going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.
 
 If you want to follow along you can refer to this [wiki](https://brilliant.org/wiki/spherical-geometry/).
 
