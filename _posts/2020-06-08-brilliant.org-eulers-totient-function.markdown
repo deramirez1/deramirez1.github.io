@@ -2,7 +2,7 @@
 layout: post
 mathjax: true
 title: "Brilliant.org: Euler's Totient Function"
-date: 2020-05-30 17:30:20 +0300
+date: 2020-06-08 17:30:20 +0300
 description: A brief pass at Euler's Totient Function
 tag: ['Math','Modular Arithmetic']
 ---
