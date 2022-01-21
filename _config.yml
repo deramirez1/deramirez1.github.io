@@ -72,7 +72,7 @@ google:
   search_engine_id       : "fbad173e4a4e866f4"
   instant_search         : # false (default), true
 # SEO Related
-google_site_verification :
+google_site_verification : "ZODQSg6lVYjIrWt-Ju0wnrKaJr-7s52InuO1-1OtwB0"
 bing_site_verification   :
 naver_site_verification  :
 yandex_site_verification :
@@ -80,33 +80,36 @@ baidu_site_verification  :
 
 # Social Sharing
 twitter:
-  username               :
+  username               : "dave_e_ramirez"
 facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : # Open Graph/Twitter default site image
+og_image                 : "assets/images/avatar.jpg"
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
   type                   : # Person or Organization (defaults to Person)
   name                   : # If the user or organization name differs from the site's name
-  links: # An array of links to social media profiles
+  links: 
+    - "https://twitter.com/dave_e_ramirez"
+    - "https://github.com/deramirez1"
+    - "https://www.linkedin.com/in/davideramirez/"
 
 # Analytics
 analytics:
-  provider               : false # false (default), "google", "google-universal", "google-gtag", "custom"
+  provider               : "google" # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          :
-    anonymize_ip         : # true, false (default)
+    tracking_id          : "UA-300298003"
+    anonymize_ip         : false # true, false (default)
 
 
 # Site Author
 author:
   name             : "David Ramirez"
   avatar           : "assets/images/avatar.jpg"
-  bio              : "Data Science/Mathematics/DevOps"
-  location         : "Minneapolis"
+  bio              : "Data Science / Mathematics / DevOps"
+  location         : "Minneapolis, MN"
   email            : "deramirez1@gmail.com"
   links:
     - label: "Gift Genius"

@@ -8,6 +8,6 @@ var store = [{
         "title": "Brilliant.org: Euler's Totient Function",
         "excerpt":"Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the wiki. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers...","categories": [],
         "tags": ["Math","Modular Arithmetic"],
-        "url": "/brilliant-spherical-geometry/",
+        "url": "/brilliant-eulers-totient-function/",
         "teaser": "/assets/images/default.jpg"
       }]
