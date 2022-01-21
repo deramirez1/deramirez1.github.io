@@ -1,201 +1,185 @@
 ---
 layout: post
 mathjax: true
-title: "Brilliant.org: Spherical Geometry"
-date: 2020-05-30 17:30:20 +0300
-description: An introduction to Spherical Geometry
-img:  Triangles_spherical_geometry.jpg
-tag: ['Math','Geometry','Linear Algebra']
+title: "Brilliant.org: Euler's Totient Function"
+date: 2020-06-08 17:30:20 +0300
+description: A brief pass at Euler's Totient Function
+tag: ['Math','Modular Arithmetic']
 ---
-I'm quite the avid proponent of [Brilliant.org](https://brilliant.org/). It's a great way to refine, build, and practice new mathematical concepts. I'm going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.
+Number theory is a very interesting field of mathematics I've only recently became interested in. This week it looks like Euler's Totient Function will be the topic, as always you can follow along at the [wiki](https://brilliant.org/wiki/eulers-totient-function/). Euler's Totient Functions (also called the Phi function) counts the number of positive integers less than $n$ that are coprime to $n$. Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.
 
-If you want to follow along you can refer to this [wiki](https://brilliant.org/wiki/spherical-geometry/).
+For example:\\
+$25 = 5^2$ and $25(1)$\\
+$9 = 3^2$ and $9(1)$
 
-## Spherical Geometry
+The only common divisor between $25$ and $9$ is $1$. Thus, $25$ and $9$ are coprime to each other. The shorthand formula to express the count of coprime numbers up to $n$ is $\phi(n)$, which is the number of $m \in\mathbb{N}$ such that $1\leq m < n$ and $gcd(m,n) = 1$.
 
-Spherical geometry is the study of objects on a sphere. It's similar to Euclidean geometry in that lines, points, and angles are the main tools for understanding those objects. There are three main differences though: 
+### Why is this important?
+If you're interested in building a cryptosystem you would be interested in this function. In fact, most cryptography is built on some form of number theory using modular arithemtic and very __very__ large numbers. The essence of this boils down to private and public keys, and knowing the solution $\phi(n)$ allows one to break this code and get the private key, following RSA encruption.
 
-1. There are no parallel lines in spherical geometry. In fact, all great circles, which is the plane that intersects the center of mass of the sphere, intersects in two antipodal points, opposite points of the sphere. __Straight lines are great circles__.
-2. Angles in a triangle (each side of which is an arc of a great circle) add up to more than 180 degrees.
-3. Line segments (arcs of great circles) have bounded length, and regions on the surface of the sphere have bounded area.
+### Example
 
-## Why learn about spherical geometry? 
-If you're interested in understanding angles, areas, and distances on Earth this is a very important field. It's relevant for navigation, cosmology, astronomey, and applications of stereographic projection, think maps (cartography). 
-
-I'll only use numpy to help illustrate some of the properties of spherical geometry and play around with some examples.
+Let's find $\phi(15)$
 
 
 ```python
-import numpy as np
+# multiples of a number are numbers that leave remainder 0
+for i in range(15):
+    i += 1
+    remainder = 15 % i
+    if remainder == 0:
+        print(f"{i} has remainder {remainder}")
 ```
 
-## The minimal distance
+    1 has remainder 0
+    3 has remainder 0
+    5 has remainder 0
+    15 has remainder 0
+    
 
-[The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.](https://en.wikipedia.org/wiki/Great-circle_distance) The distance between two points is therefore $R\phi$, where $R$ is the radius of the sphere and $\phi$ is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.
-
-### Example:
-Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$?
-
-Let's break this down. We received two vectors, $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$, our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I'll use the Vector version:
-
-$d = R\Delta\phi$ \\
-$R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})$
-
-Where $d$ is the distance on the sphere, $R$ is the radius of the sphere, and $v_{1}$ and $v_{2}$ are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition's tangnet line on the sphere.
-
-Using the vector equation we need to find the [dot product](https://mathworld.wolfram.com/DotProduct.html) of the two vectors. From there we can find the angle, and then the distance using the radius, $R$.
+We have 4 numbers that contain a remainder of $0: 1, 3, 5,$ and $15$. We can ignore $1$ and $15$ since $1$ is divisable by all numbers. Let's rewrite the equation to remove $1$ and $15$, and all future instance of that.
 
 
 ```python
-# create two vectors
+# multiples of a number are numbers that leave remainder 0, now removing 1 and the last number
+num = 15
 
-A = [ 1, 1, np.sqrt(2)]
-B = [-1, 1, np.sqrt(2)]
-
-# get the dot product
-dot_product = np.dot(A, B)
-
-dot_product
+for i in range(2, num - 1):
+    remainder = 15 % i
+    if remainder == 0:
+        print(f"{i} has remainder {remainder}")
 ```
 
+    3 has remainder 0
+    5 has remainder 0
+    
 
+Perfect, now that we know which numbers are multiples of $15$ we need to eliminate all their multiples up to $15$. Remember, $\phi(n)$ counts all coprime numbers up to $n$. We remove all multiples because those multiples are not coprime to $15$. As an example, $10$ equals $5(2)$ and $1(10)$, $15$ is a mutliple of $5$. Since we're only interested in coprime numbers $10$ does no make the cut, but $14$ would. $14$ is a made up of two prime numbers $7$ and $2$. Both those numbers are not multiples of $15$ so $14$ counts and so does $2$ and $7$.
 
-
-    2.0000000000000004
-
-
+To start, represent $m$ as a coprime number to $n$. The count of all the $m$s is going to be less than the range of $n$. Which is represented by the inequality above: the number of $m \in\mathbb{N}$ such that $1\leq m < n$. Once we get all the $m$s we can take the whole range of $n$ and subtract the range of $m$.
 
 
 ```python
-R = 2 # radius
-ϕ = np.arccos(dot_product/(R ** 2))
+%%timeit
+num = 15
+divisors = [] # create a list of all the divisors of n
+remove_numbers = [] # append all mutliples of the divisors of n to an emptry list
 
-# our angle
-print("Our angle is equal to: ", ϕ)
-print("This is 1/3 of π: ", np.pi/3)
+for i in range(2, num - 1):
+    remainder = 15 % i
+    if remainder == 0:
+        divisors.append(i)
+        
+for div in divisors:
+    for i in range(2, num - 1):
+        remainder = i % div
+        if remainder == 0:
+            remove_numbers.append(i)
 ```
 
-    Our angle is equal to:  1.0471975511965976
-    This is 1/3 of π:  1.0471975511965976
+    2.53 µs ± 75.2 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
     
 
 
 ```python
-# therefore, the distance is
-Rϕ = R * ϕ
-
-print("The minimal distance given the two vectors is: ", Rϕ)
-print("This is equal to 2π/3: ", 2*np.pi/3)
+numbers_to_n = list(range(1, num))
+f'The number of coprime numbers from 1-n, solving ϕ(n): {len(set(numbers_to_n) - set(remove_numbers))}'
 ```
 
-    The minimal distance given the two vectors is:  2.0943951023931953
-    This is equal to 2π/3:  2.0943951023931953
+
+
+
+    'The number of coprime numbers from 1-n, solving ϕ(n): 8'
+
+
+
+This solved the equation and it's relatively fast but it won't scale. If we needed to run this on really large numbers this would take a while. For example, let's change the number to something 1,000 times greater and see what the run time is.
+
+
+```python
+%%timeit
+num = (15*1001)
+divisors = [] # create a list of all the divisors of n
+remove_numbers = [] # append all mutliples of the divisors of n to an emptry list
+
+
+for i in range(2, num - 1):
+    remainder = 15 % i
+    if remainder == 0:
+        divisors.append(i)
+        
+for div in divisors:
+    for i in range(2, num - 1):
+        remainder = i % div
+        if remainder == 0:
+            remove_numbers.append(i)
+```
+
+    2.86 ms ± 49.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
     
 
-
-Now that we have a functional example, let's extend this to allow for many points that might come in as vectors.
+The runtime for this is 2.86 ms which is roughly 1,000 times that of the 2.51 $\mu$s. I suspect at best they scale linearly, the higher the $n$ the more slowly it will run. Luckly, a lot of this math is already worked for us. The [SymPy](https://www.sympy.org/en/index.html) package takes care of a lot of the heavy lifting for getting the totient.
 
 
 ```python
-def spherical_distance_vectors(point_A, point_B, radius):
-    dot_product = np.dot(point_A, point_B)
-    ϕ = np.arccos(dot_product / (radius ** 2))
-    distance = radius * ϕ
-    return print("The distance between points", point_A, "and", point_B,"is equal to:", np.round_(distance,3))
+from sympy.ntheory import totient
 ```
 
 
 ```python
-vectors = 10 * np.random.random_sample((5,3)) # create a matrix (x , 3). I picked 5 by 3.
-radius = 20. # set the radius
-vectors[:,-1] = np.sqrt(radius) # append the radius to the last column
-vectors
+%%timeit
+totient(15*1001)
 ```
 
-
-
-
-    array([[7.38566540e-03, 3.24902955e+00, 4.47213595e+00],
-           [4.17878062e+00, 6.28529588e+00, 4.47213595e+00],
-           [6.42920002e+00, 1.73161261e+00, 4.47213595e+00],
-           [8.47919453e+00, 1.00304819e+00, 4.47213595e+00],
-           [6.33512133e+00, 6.60878065e+00, 4.47213595e+00]])
-
-
-
-
-```python
-from itertools import combinations
-
-combinations = list(combinations(range(5), 2)) # generate a genertic index list to use to get the right points without duplicate analysis
-
-for i in range(len(combinations)):
-    spherical_distance_vectors(np.round_(vectors[list(combinations[i])[0]],3), np.round_(vectors[list(combinations[i])[1]],3), radius)
-```
-
-    The distance between points [0.007 3.249 4.472] and [4.179 6.285 4.472] is equal to: 29.39
-    The distance between points [0.007 3.249 4.472] and [6.429 1.732 4.472] is equal to: 30.131
-    The distance between points [0.007 3.249 4.472] and [8.479 1.003 4.472] is equal to: 30.249
-    The distance between points [0.007 3.249 4.472] and [6.335 6.609 4.472] is equal to: 29.336
-    The distance between points [4.179 6.285 4.472] and [6.429 1.732 4.472] is equal to: 28.518
-    The distance between points [4.179 6.285 4.472] and [8.479 1.003 4.472] is equal to: 28.317
-    The distance between points [4.179 6.285 4.472] and [6.335 6.609 4.472] is equal to: 26.979
-    The distance between points [6.429 1.732 4.472] and [8.479 1.003 4.472] is equal to: 27.58
-    The distance between points [6.429 1.732 4.472] and [6.335 6.609 4.472] is equal to: 27.787
-    The distance between points [8.479 1.003 4.472] and [6.335 6.609 4.472] is equal to: 27.371
+    227 ns ± 4.25 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
     
 
-### Vector Distance Plotted
+Wow! That was a million times faster than the equation I ran before. This would definitely scale much better. But how does SymPy have such a fast equation? A part of the answer is what I wrote was brute force, required holding memory of each multiplicative, and each number up to $n$. But more importantly, I'm not running the best equation to figure something like this out. It's much faster to find some factors of $n$ such that $n = ab$, where the $\gcd(a,b) = 1$ (indicating these are two coprime numbers). That is not a trival ask, and makes light of how difficult it can be to find. But for this theorum, the problem is now broken down into a much easier set of numbers. Since $ab = n$, if we find all the prime multiplicatives of $a$ we have found prime numbers between 1 and $n$, same goes for $b$. And, since $a$ can be large if $n$ is large, we can simplify our notation and make it more general, like's call it $p^k$ where $p$ is some prime number raised to the power of $k$, which equals $a$. Heres an example:
 
-This is nice but it could be beneficial to see the distance laid out for us. Luckly, that's doable with matplotlib and this handy work from [stack overflow]("https://stackoverflow.com/questions/11140163/plotting-a-3d-cube-a-sphere-and-a-vector-in-matplotlib").
+$5^{2} = 25$
+
+$25$ ($a$) is made up of two numbers multiplied by each other, specifically $5$ ($b$). Thus $25$ equals $5$ raised to the power of $2$ ($k$). 
+
+Sticking with that example, since $25$ is coprime $b$ (remember statisfying $\gcd(25,b) = 1$) that means all of $a$'s multiplicatives statisfy this requirement, $5^{1}, 5^{2}, 5^{3}..., 5^{k}$. However, the formal range only needs to extend up to $a$, $[1,p^{k}]$, where $p^{k}$ in our example is $25$. There is a formula that generalizes this more and we're going to use it:
+
+$\phi(p^{k}) = p^{(k - 1)}(p - 1)$
+
+[Proof](https://en.wikipedia.org/wiki/Euler%27s_totient_function): since $p$ is a prime number the only possible values of $\gcd(p^k, b)$ are $1, p, p^2, ..., p^k$, and the only way for $\gcd(p^k, b)$ to not equal 1 is for $b$ to be a multiple of $p$. The multiples of $p$ that are less than or equal to $p^k$ are $p, 2p, 3p, ..., p^{k − 1}p = p^k$, and there are $p^{k − 1}$ of them. Therefore, the other $p^k − p^{(k − 1)}$ numbers are all relatively prime to $p^k$.
+
+There's one more detail that we need to put this all together. Since the totient is multiplicative, $ab = n$, we can multiply the counts of primes from $a$ and $b$. Since $a$ and $b$ have a $\gcd(a,b) = 1$ each prime composing $a$ or $b$ is unique. Thus, all $ab$ pairings, their respective primes multiplied by each other, are unique to $n$ and coprime to $n$. Again, this is not a trival fact but it's very powerful. 
 
 
 ```python
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-from itertools import product, combinations
+from sympy.ntheory.factor_ import factorint
 ```
 
 
 ```python
-fig = plt.figure(figsize=(10,10))
-ax = fig.gca(projection = '3d')
-
-# draw the sphere we want to plot
-u, v = np.mgrid[0:2*np.pi:20j, 0:np.pi:10j]
-x = 2*np.cos(u)*np.sin(v)
-y = 2*np.sin(u)*np.sin(v)
-z = 2*np.cos(v)
-ax.plot_wireframe(x, y, z, color="r")
-
-# draw a point
-ax.scatter([0], [0], [0], color="g", s=100)
-
-# draw a vector
-from matplotlib.patches import FancyArrowPatch
-from mpl_toolkits.mplot3d import proj3d
-
-
-class Arrow3D(FancyArrowPatch):
-
-    def __init__(self, xs, ys, zs, *args, **kwargs):
-        FancyArrowPatch.__init__(self, (0, 0), (0, 0), *args, **kwargs)
-        self._verts3d = xs, ys, zs
-
-    def draw(self, renderer):
-        xs3d, ys3d, zs3d = self._verts3d
-        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
-        self.set_positions((xs[0], ys[0]), (xs[1], ys[1]))
-        FancyArrowPatch.draw(self, renderer)
-
-a = Arrow3D([0, 1], [0, 1], [0, np.sqrt(2)], mutation_scale=20,
-            lw=1, arrowstyle="-|>", color="k")
-b = Arrow3D([0, -1], [0, 1], [0, np.sqrt(2)], mutation_scale=20,
-            lw=1, arrowstyle="-|>", color="k")
-ax.add_artist(a)
-ax.add_artist(b)
-plt.show()
+factors = factorint(15*1001)
+factors
 ```
 
 
-![3D-Sphere]({{ site.baseurl }}/assets/img/output-spherical-geometry.png)
+
+
+    {3: 1, 5: 1, 7: 1, 11: 1, 13: 1}
+
+
+
+
+```python
+%%timeit
+t = 1
+for p, k in factors.items():
+    t *= (p - 1) * p**(k-1)
+```
+
+    588 ns ± 5.29 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+    
+
+I used SymPy's factorint function to get the factors for $n$. Then I applied SymPy's formula for finding all the primes factors of $n$. For example, $3$ is a factor of $15(1001)$. Looping through each factor and it's power, multiplying $t$ each time it passes, produces the correct number of primes from $1$ to $n$. This is the same equation SymPy uses. It's still slightly slower than the original SymPy function but it's still significantly faster than the original, around a million times.
+
+
+```python
+
+```
