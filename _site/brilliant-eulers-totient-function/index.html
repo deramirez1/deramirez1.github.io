@@ -1,0 +1,804 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Brilliant.org: Euler’s Totient Function | Laboratory</title>
+<meta name="description" content="A brief pass at Euler’s Totient Function">
+
+
+  <meta name="author" content="David Ramirez">
+  
+  <meta property="article:author" content="David Ramirez">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Laboratory">
+<meta property="og:title" content="Brilliant.org: Euler’s Totient Function">
+<meta property="og:url" content="http://localhost:4000/brilliant-eulers-totient-function/">
+
+
+  <meta property="og:description" content="A brief pass at Euler’s Totient Function">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/avatar.jpg">
+
+
+
+  <meta name="twitter:site" content="@dave_e_ramirez">
+  <meta name="twitter:title" content="Brilliant.org: Euler’s Totient Function">
+  <meta name="twitter:description" content="A brief pass at Euler’s Totient Function">
+  <meta name="twitter:url" content="http://localhost:4000/brilliant-eulers-totient-function/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="http://localhost:4000/assets/images/avatar.jpg">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-06-08T10:30:20-04:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/brilliant-eulers-totient-function/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "David Ramirez",
+      "url": "http://localhost:4000/",
+      "sameAs": ["https://twitter.com/dave_e_ramirez","https://github.com/deramirez1","https://www.linkedin.com/in/davideramirez/"]
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="ZODQSg6lVYjIrWt-Ju0wnrKaJr-7s52InuO1-1OtwB0" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Laboratory Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- for mathjax support -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+<script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/the-little-one-cover.jpg" alt="Laboratory"></a>
+        
+        <a class="site-title" href="/">
+          Laboratory
+          <span class="site-subtitle">Version 2.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/docs/quick-start-guide/">Quick-Start Guide</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Sample Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/collection-archive/">Sample Collections</a>
+            </li><li class="masthead__menu-item">
+              <a href="/terms/">Terms &amp; Privacy Policy</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/avatar.jpg" alt="David Ramirez" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">David Ramirez</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Data Science / Mathematics / DevOps</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Minneapolis, MN</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://gift-genius.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Gift Genius</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/dave_e_ramirez" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/deramirez1" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:deramirez1@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="deramirez1@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Brilliant.org: Euler’s Totient Function">
+    <meta itemprop="description" content="Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the wiki. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than $n$ that are coprime to $n$. Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.">
+    <meta itemprop="datePublished" content="2020-06-08T10:30:20-04:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/brilliant-eulers-totient-function/" class="u-url" itemprop="url">Brilliant.org: Euler’s Totient Function
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the <a href="https://brilliant.org/wiki/eulers-totient-function/">wiki</a>. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than $n$ that are coprime to $n$. Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.</p>
+
+<p>For example:<br />
+\(25 = 5^2\) and \(25(1)\)<br />
+\(9 = 3^2\) and \(9(1)\)</p>
+
+<p>The only common divisor between \(25\) and \(9\) is \(1\). Thus, \(25\) and \(9\) are coprime to each other. The shorthand formula to express the count of coprime numbers up to $n$ is \(\phi(n)\), which is the number of \(m \in\mathbb{N}\) such that \(1\leq m &lt; n\) and \(gcd(m,n) = 1\).</p>
+
+<h3 id="why-is-this-important">Why is this important?</h3>
+<p>If you’re interested in building a cryptosystem you would be interested in this function. In fact, most cryptography is built on some form of number theory using modular arithemtic and very <strong>very</strong> large numbers. The essence of this boils down to private and public keys, and knowing the solution \(\phi(n)\) allows one to break this code and get the private key, following RSA encruption.</p>
+
+<h3 id="example">Example</h3>
+
+<p>Let’s find \(\phi(15)\)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># multiples of a number are numbers that leave remainder 0
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> has remainder </span><span class="si">{</span><span class="n">remainder</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 has remainder 0
+3 has remainder 0
+5 has remainder 0
+15 has remainder 0
+</code></pre></div></div>
+
+<p>We have 4 numbers that contain a remainder of \(0: 1, 3, 5,\) and \(15\). We can ignore \(1\) and \(15\) since \(1\) is divisable by all numbers. Let’s rewrite the equation to remove \(1\) and \(15\), and all future instances of that.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># multiples of a number are numbers that leave remainder 0, now removing 1 and the last number
+</span><span class="n">num</span> <span class="o">=</span> <span class="mi">15</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> has remainder </span><span class="si">{</span><span class="n">remainder</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3 has remainder 0
+5 has remainder 0
+</code></pre></div></div>
+
+<p>Perfect, now that we know which numbers are multiples of \(15\) we need to eliminate all their multiples up to \(15\). Remember, \(\phi(n)\) counts all coprime numbers up to \(n\). We remove all multiples because those multiples are not coprime to \(15\). As an example, \(10\) equals \(5(2)\) and \(1(10)\), \(15\) is a mutliple of \(5\). Since we’re only interested in coprime numbers \(10\) does not make the cut, but \(14\) would. \(14\) is a made up of two prime numbers \(7\) and \(2\). Both those numbers are not multiples of \(15\) so \(14\) counts and so does \(2\) and \(7\).</p>
+
+<p>To start, imagine \(m\) as a coprime number to \(n\). The count of all the \(m\)s is going to be less than the range of \(n\). Which is represented by the inequality above: the number of \(m \in\mathbb{N}\) such that \(1\leq m &lt; n\). Once we get all the \(m\)s we can take the whole range of \(n\) and subtract the range of \(m\).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">divisors</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># create a list of all the divisors of n
+</span><span class="n">remove_numbers</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># append all mutliples of the divisors of n to an emptry list
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">divisors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        
+<span class="k">for</span> <span class="n">div</span> <span class="ow">in</span> <span class="n">divisors</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">remainder</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">div</span>
+        <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">remove_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.53 µs ± 75.2 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers_to_n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+<span class="sa">f</span><span class="s">'The number of coprime numbers from 1-n, solving ϕ(n): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">numbers_to_n</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">remove_numbers</span><span class="p">))</span><span class="si">}</span><span class="s">'</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'The number of coprime numbers from 1-n, solving ϕ(n): 8'
+</code></pre></div></div>
+
+<p>This solved the equation and it’s relatively fast but it won’t scale. If we needed to run this on really large numbers this would take a while. For example, let’s change the number to something 1,000 times greater and see what the run time is.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="mi">1001</span><span class="p">)</span>
+<span class="n">divisors</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># create a list of all the divisors of n
+</span><span class="n">remove_numbers</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># append all mutliples of the divisors of n to an emptry list
+</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">divisors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        
+<span class="k">for</span> <span class="n">div</span> <span class="ow">in</span> <span class="n">divisors</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">remainder</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">div</span>
+        <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">remove_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.86 ms ± 49.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+</code></pre></div></div>
+
+<p>The runtime for this is 2.86 ms which is roughly 1,000 times that of the 2.51 \(\mu\)s. I suspect at best they scale linearly, the larger the prime the slower it will run. Luckly, a lot of this math is already worked for us. The <a href="https://www.sympy.org/en/index.html">SymPy</a> package takes care of a lot of the heavy lifting for getting the totient.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sympy.ntheory</span> <span class="kn">import</span> <span class="n">totient</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">totient</span><span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="mi">1001</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>227 ns ± 4.25 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</code></pre></div></div>
+
+<p>Wow! That was a million times faster than the equation I ran before. This would definitely scale much better. But how does SymPy have such a fast equation? A part of the answer is what I wrote was brute force, required holding memory of each multiplicative, and each number up to \(n\). But more importantly, I’m not running the best equation to figure something like this out. It’s much faster to find some factors of \(n\) such that \(n = ab\), where the \(\gcd(a,b) = 1\) (indicating these are two coprime numbers). That is not a trival ask, and makes light of how difficult it can be to find. But for this theorum, the problem is now broken down into a much easier set of numbers. Since \(ab = n\), if we find all the prime multiplicatives of \(a\) we have found prime numbers between 1 and \(n\), same goes for \(b\). And, since \(a\) can be large if \(n\) is large, we can simplify our notation and make it more general, like’s call it \(p^k\) where \(p\) is some prime number raised to the power of \(k\), which equals \(a\). Heres an example:</p>
+
+\[5^{2} = 25\]
+
+<p>\(25\) (\(a\)) is made up of two numbers multiplied by each other, specifically \(5\) (\(b\)). Thus \(25\) equals \(5\) raised to the power of \(2\) (\(k\)).</p>
+
+<p>Sticking with that example, since \(25\) is coprime \(b\) (remember statisfying \(\gcd(25,b) = 1\)) that means all of \(a\)’s multiplicatives statisfy this requirement, \(5^{1}, 5^{2}, 5^{3}..., 5^{k}\). However, the formal range only needs to extend up to \(a\), \([1,p^{k}]\), where \(p^{k}\) in our example is \(25\). There is a formula that generalizes this more and we’re going to use it:</p>
+
+\[\phi(p^{k}) = p^{(k - 1)}(p - 1)\]
+
+<p><a href="https://en.wikipedia.org/wiki/Euler%27s_totient_function">Proof</a>: since \(p\) is a prime number the only possible values of \(\gcd(p^k, b)\) are \(1, p, p^2, ..., p^k\), and the only way for \(\gcd(p^k, b)\) to not equal 1 is for \(b\) to be a multiple of \(p\). The multiples of \(p\) that are less than or equal to \(p^k\) are \(p, 2p, 3p, ..., p^{k − 1}p = p^k\), and there are \(p^{k − 1}\) of them. Therefore, the other \(p^k − p^{(k − 1)}\) numbers are all relatively prime to \(p^k\).</p>
+
+<p>There’s one more detail that we need to put this all together. Since the totient is multiplicative, \(ab = n\), we can multiply the counts of primes from \(a\) and \(b\). Since \(a\) and \(b\) have a \(\gcd(a,b) = 1\) each prime composing \(a\) or \(b\) is unique. Thus, all \(ab\) pairings, these respective primes multiplied by each other, are unique to \(n\) and produce a coprime to \(n\). Again, this is not a trival fact but it’s very powerful.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sympy.ntheory.factor_</span> <span class="kn">import</span> <span class="n">factorint</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">factors</span> <span class="o">=</span> <span class="n">factorint</span><span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="mi">1001</span><span class="p">)</span>
+<span class="n">factors</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{3: 1, 5: 1, 7: 1, 11: 1, 13: 1}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">t</span> <span class="o">*=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>588 ns ± 5.29 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</code></pre></div></div>
+
+<p>I used SymPy’s factorint function to get the factors for \(n\). Then I applied SymPy’s formula for finding all the primes factors of \(n\). For example, \(3\) is a factor of \(15(1001)\). Looping through each factor and it’s power, multiplying \(t\) each time it passes, produces the correct number of primes from \(1\) to \(n\). This is the same equation SymPy uses. It’s still slightly slower than the original SymPy function but it’s still significantly faster than the original, around a million times.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#math" class="page__taxonomy-item p-category" rel="tag">Math</a><span class="sep">, </span>
+    
+      <a href="/tags/#modular-arithmetic" class="page__taxonomy-item p-category" rel="tag">Modular Arithmetic</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-06-08T10:30:20-04:00">June 8, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?via=dave_e_ramirez&text=Brilliant.org%3A+Euler%27s+Totient+Function%20http%3A%2F%2Flocalhost%3A4000%2Fbrilliant-eulers-totient-function%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fbrilliant-eulers-totient-function%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fbrilliant-eulers-totient-function%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/brilliant-spherical-geometry/" class="pagination--pager" title="Brilliant.org: Spherical Geometry
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/brilliant-spherical-geometry/" rel="permalink">Brilliant.org: Spherical Geometry
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I’m quite the avid proponent of Brilliant.org. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillan...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/jekyll/post-exclude-search/" rel="permalink">Exclude Post from Search Index
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post should not appear in the search index because it has the following YAML Front Matter:
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/layout/uncategorized/layout-header-video/" rel="permalink">Layout: Header Video
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post should display a header with a responsive video, if the theme supports it.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/jekyll/gemified-theme-beta/" rel="permalink">Gemified Theme – Beta Release
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hot on the heels of Jekyll v3.3.0 is a beta release of Minimal Mistakes… as a gemified theme.
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/dave_e_ramirez" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/deramirez1" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 David Ramirez. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/brilliant-eulers-totient-function/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/brilliant-eulers-totient-function"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://deramirez1-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
