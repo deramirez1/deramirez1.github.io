@@ -5,13 +5,13 @@ date: 2020-06-08 17:30:20 +0300
 description: A brief pass at Euler's Totient Function
 tag: ['Math','Modular Arithmetic']
 ---
-Number theory is a very interesting field of mathematics I've only recently became interested in. This week it looks like Euler's Totient Function will be the topic, as always you can follow along at the [wiki](https://brilliant.org/wiki/eulers-totient-function/). Euler's Totient Functions (also called the Phi function) counts the number of positive integers less than $n$ that are coprime to $n$. Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.
+Number theory is a very interesting field of mathematics I've only recently became interested in. This week it looks like Euler's Totient Function will be the topic, as always you can follow along at the [wiki](https://brilliant.org/wiki/eulers-totient-function/). Euler's Totient Functions (also called the Phi function) counts the number of positive integers less than $$n$$ that are coprime to $$n$$. Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.
 
 For example:\\
 $$25 = 5^2$$ and $$25(1)$$\\
 $$9 = 3^2$$ and $$9(1)$$
 
-The only common divisor between $$25$$ and $$9$$ is $$1$$. Thus, $$25$$ and $$9$$ are coprime to each other. The shorthand formula to express the count of coprime numbers up to $n$ is $$\phi(n)$$, which is the number of $$m \in\mathbb{N}$$ such that $$1\leq m < n$$ and $$gcd(m,n) = 1$$.
+The only common divisor between $$25$$ and $$9$$ is $$1$$. Thus, $$25$$ and $$9$$ are coprime to each other. The shorthand formula to express the count of coprime numbers up to $$n$$ is $$\phi(n)$$, which is the number of $$m \in\mathbb{N}$$ such that $$1\leq m < n$$ and $$gcd(m,n) = 1$$.
 
 ### Why is this important?
 If you're interested in building a cryptosystem you would be interested in this function. In fact, most cryptography is built on some form of number theory using modular arithemtic and very __very__ large numbers. The essence of this boils down to private and public keys, and knowing the solution $$\phi(n)$$ allows one to break this code and get the private key, following RSA encruption.

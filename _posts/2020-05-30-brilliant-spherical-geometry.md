@@ -32,19 +32,19 @@ import numpy as np
 
 ## The minimal distance
 
-[The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.](https://en.wikipedia.org/wiki/Great-circle_distance) The distance between two points is therefore $R\phi$, where $R$ is the radius of the sphere and $\phi$ is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.
+[The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.](https://en.wikipedia.org/wiki/Great-circle_distance) The distance between two points is therefore $$R\phi$$, where $$R$$ is the radius of the sphere and $$\phi$$ is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.
 
 ### Example:
-Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$?
+Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points $$(1, 1, \sqrt{2})$$ and $$(-1, 1, \sqrt{2})$$?
 
-Let's break this down. We received two vectors, $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$, our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I'll use the Vector version:
+Let's break this down. We received two vectors, $$(1, 1, \sqrt{2})$$ and $$(-1, 1, \sqrt{2})$$, our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I'll use the Vector version:
 
-$d = R\Delta\phi$ \\
-$R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})$
+$$d = R\Delta\phi$$ \\
+$$R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})$$
 
-Where $d$ is the distance on the sphere, $R$ is the radius of the sphere, and $v_{1}$ and $v_{2}$ are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition's tangnet line on the sphere.
+Where $$d$$ is the distance on the sphere, $$R$$ is the radius of the sphere, and $$v_{1}$$ and $$v_{2}$$ are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition's tangnet line on the sphere.
 
-Using the vector equation we need to find the [dot product](https://mathworld.wolfram.com/DotProduct.html) of the two vectors. From there we can find the angle, and then the distance using the radius, $R$.
+Using the vector equation we need to find the [dot product](https://mathworld.wolfram.com/DotProduct.html) of the two vectors. From there we can find the angle, and then the distance using the radius, $$R$$.
 
 
 ```python
@@ -197,6 +197,3 @@ ax.add_artist(a)
 ax.add_artist(b)
 plt.show()
 ```
-
-
-![3D-Sphere]({{ site.baseurl }}/assets/img/output-spherical-geometry.png)
