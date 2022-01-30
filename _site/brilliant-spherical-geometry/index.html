@@ -23,26 +23,26 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Laboratory">
 <meta property="og:title" content="Brilliant.org: Spherical Geometry">
-<meta property="og:url" content="https://deramirez1.github.io/brilliant-spherical-geometry/">
+<meta property="og:url" content="http://localhost:4000/brilliant-spherical-geometry/">
 
 
   <meta property="og:description" content="An introduction to Spherical Geometry">
 
 
 
-  <meta property="og:image" content="https://deramirez1.github.io/assets/images/avatar.jpg">
+  <meta property="og:image" content="http://localhost:4000/assets/images/avatar.jpg">
 
 
 
   <meta name="twitter:site" content="@dave_e_ramirez">
   <meta name="twitter:title" content="Brilliant.org: Spherical Geometry">
   <meta name="twitter:description" content="An introduction to Spherical Geometry">
-  <meta name="twitter:url" content="https://deramirez1.github.io/brilliant-spherical-geometry/">
+  <meta name="twitter:url" content="http://localhost:4000/brilliant-spherical-geometry/">
 
   
     <meta name="twitter:card" content="summary">
     
-      <meta name="twitter:image" content="https://deramirez1.github.io/assets/images/avatar.jpg">
+      <meta name="twitter:image" content="http://localhost:4000/assets/images/avatar.jpg">
     
   
 
@@ -61,7 +61,7 @@
   
 
 
-<link rel="canonical" href="https://deramirez1.github.io/brilliant-spherical-geometry/">
+<link rel="canonical" href="http://localhost:4000/brilliant-spherical-geometry/">
 
 
 
@@ -72,7 +72,7 @@
     
       "@type": "Person",
       "name": "David Ramirez",
-      "url": "https://deramirez1.github.io/",
+      "url": "http://localhost:4000/",
       "sameAs": ["https://twitter.com/dave_e_ramirez","https://github.com/deramirez1","https://www.linkedin.com/in/davideramirez/"]
     
   }
@@ -177,7 +177,7 @@
 
   
     <div class="author__avatar">
-      <a href="https://deramirez1.github.io/">
+      <a href="http://localhost:4000/">
         <img src="/assets/images/avatar.jpg" alt="David Ramirez" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -185,7 +185,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="https://deramirez1.github.io/" itemprop="url">David Ramirez</a>
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">David Ramirez</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -304,7 +304,7 @@
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://deramirez1.github.io/brilliant-spherical-geometry/" class="u-url" itemprop="url">Brilliant.org: Spherical Geometry
+            <a href="http://localhost:4000/brilliant-spherical-geometry/" class="u-url" itemprop="url">Brilliant.org: Spherical Geometry
 </a>
           </h1>
           
@@ -357,19 +357,19 @@
 
 <h2 id="the-minimal-distance">The minimal distance</h2>
 
-<p><a href="https://en.wikipedia.org/wiki/Great-circle_distance">The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.</a> The distance between two points is therefore $R\phi$, where $R$ is the radius of the sphere and $\phi$ is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.</p>
+<p><a href="https://en.wikipedia.org/wiki/Great-circle_distance">The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.</a> The distance between two points is therefore \(R\phi\), where \(R\) is the radius of the sphere and \(\phi\) is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.</p>
 
 <h3 id="example">Example:</h3>
-<p>Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$?</p>
+<p>Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points \((1, 1, \sqrt{2})\) and \((-1, 1, \sqrt{2})\)?</p>
 
-<p>Let’s break this down. We received two vectors, $(1, 1, \sqrt{2})$ and $(-1, 1, \sqrt{2})$, our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I’ll use the Vector version:</p>
+<p>Let’s break this down. We received two vectors, \((1, 1, \sqrt{2})\) and \((-1, 1, \sqrt{2})\), our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I’ll use the Vector version:</p>
 
-<p>$d = R\Delta\phi$ <br />
-$R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})$</p>
+<p>\(d = R\Delta\phi\) <br />
+\(R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})\)</p>
 
-<p>Where $d$ is the distance on the sphere, $R$ is the radius of the sphere, and $v_{1}$ and $v_{2}$ are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition’s tangnet line on the sphere.</p>
+<p>Where \(d\) is the distance on the sphere, \(R\) is the radius of the sphere, and \(v_{1}\) and \(v_{2}\) are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition’s tangnet line on the sphere.</p>
 
-<p>Using the vector equation we need to find the <a href="https://mathworld.wolfram.com/DotProduct.html">dot product</a> of the two vectors. From there we can find the angle, and then the distance using the radius, $R$.</p>
+<p>Using the vector equation we need to find the <a href="https://mathworld.wolfram.com/DotProduct.html">dot product</a> of the two vectors. From there we can find the angle, and then the distance using the radius, \(R\).</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create two vectors
 </span>
@@ -498,8 +498,6 @@ The distance between points [8.479 1.003 4.472] and [6.335 6.609 4.472] is equal
 <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p><img src="/assets/img/output-spherical-geometry.png" alt="3D-Sphere" /></p>
-
         
       </section>
 
@@ -536,11 +534,11 @@ The distance between points [8.479 1.003 4.472] and [6.335 6.609 4.472] is equal
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?via=dave_e_ramirez&text=Brilliant.org%3A+Spherical+Geometry%20https%3A%2F%2Fderamirez1.github.io%2Fbrilliant-spherical-geometry%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=dave_e_ramirez&text=Brilliant.org%3A+Spherical+Geometry%20http%3A%2F%2Flocalhost%3A4000%2Fbrilliant-spherical-geometry%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fderamirez1.github.io%2Fbrilliant-spherical-geometry%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fbrilliant-spherical-geometry%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fderamirez1.github.io%2Fbrilliant-spherical-geometry%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fbrilliant-spherical-geometry%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -662,7 +660,7 @@ The distance between points [8.479 1.003 4.472] and [6.335 6.609 4.472] is equal
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://deramirez1.github.io/brilliant-spherical-geometry/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.url = "http://localhost:4000/brilliant-spherical-geometry/";  /* Replace PAGE_URL with your page's canonical URL variable */
       this.page.identifier = "/brilliant-spherical-geometry"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
