@@ -10,4 +10,10 @@ var store = [{
         "tags": ["Math","Modular Arithmetic"],
         "url": "/brilliant-eulers-totient-function/",
         "teaser": "/assets/images/default.jpg"
+      },{
+        "title": "Apache Airflow: SnowflakeOperator",
+        "excerpt":"If you run into this problem after downloading snowflake-sqlalchemy for Apache Airflow: That means you probably encountered this error while downloading snowflake-sqlalchemy: A quick Google search will push you to this Stackoverflow question. This question is pretty helpful and it should give you the idea that you need to downgrade...","categories": [],
+        "tags": ["Apache Airflow","Snowflake"],
+        "url": "/snowflake-apache-airflow/",
+        "teaser": "/assets/images/default.jpg"
       }]
