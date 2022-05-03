@@ -1,363 +1,363 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://deramirez1.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://deramirez1.github.io/" rel="alternate" type="text/html" /><updated>2022-05-02T23:16:30-04:00</updated><id>https://deramirez1.github.io/feed.xml</id><title type="html">Laboratory</title><subtitle>Data Science/Mathematics/DevOps</subtitle><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><entry><title type="html">AWS RDS to S3: Your Data Easy and Fast</title><link href="https://deramirez1.github.io/aws-rds-to-s3/" rel="alternate" type="text/html" title="AWS RDS to S3: Your Data Easy and Fast" /><published>2022-05-01T10:40:20-04:00</published><updated>2022-05-01T10:40:20-04:00</updated><id>https://deramirez1.github.io/aws-rds-to-s3</id><content type="html" xml:base="https://deramirez1.github.io/aws-rds-to-s3/">&lt;p&gt;This is useful for anyone who’s working with or recently setup &lt;a href=&quot;https://aws.amazon.com/rds/&quot;&gt;AWS RDS&lt;/a&gt;. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;MariaDB&lt;/li&gt;
-  &lt;li&gt;MySQL&lt;/li&gt;
-  &lt;li&gt;PostgreSQL&lt;/li&gt;
-&lt;/ul&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://deramirez1.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://deramirez1.github.io/" rel="alternate" type="text/html" /><updated>2022-05-02T23:19:53-04:00</updated><id>https://deramirez1.github.io/feed.xml</id><title type="html">Laboratory</title><subtitle>Data Science/Mathematics/DevOps</subtitle><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><entry><title type="html">AWS RDS to S3: Your Data Easy and Fast</title><link href="https://deramirez1.github.io/aws-rds-to-s3/" rel="alternate" type="text/html" title="AWS RDS to S3: Your Data Easy and Fast" /><published>2022-05-01T10:40:20-04:00</published><updated>2022-05-01T10:40:20-04:00</updated><id>https://deramirez1.github.io/aws-rds-to-s3</id><content type="html" xml:base="https://deramirez1.github.io/aws-rds-to-s3/"><![CDATA[<p>This is useful for anyone who’s working with or recently setup <a href="https://aws.amazon.com/rds/">AWS RDS</a>. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases:</p>
+<ul>
+  <li>MariaDB</li>
+  <li>MySQL</li>
+  <li>PostgreSQL</li>
+</ul>
 
-&lt;h3 id=&quot;note&quot;&gt;Note:&lt;/h3&gt;
-&lt;p&gt;Before I dive in, AWS works very hard to make sure every service is secure. Part of that security is making sure the right users and/or groups of users are not interfering with products or services which are not applicable to them. In order to do that, Identity and Access Management (IAM) is used to manage individuals and/or groups of individuals access to products and services. To that end, if a policy is not enabled for a certain user or group then by default, they are denied that ability to interact with those products and services. You may need to enable certain policies before progressing further.&lt;/p&gt;
+<h3 id="note">Note:</h3>
+<p>Before I dive in, AWS works very hard to make sure every service is secure. Part of that security is making sure the right users and/or groups of users are not interfering with products or services which are not applicable to them. In order to do that, Identity and Access Management (IAM) is used to manage individuals and/or groups of individuals access to products and services. To that end, if a policy is not enabled for a certain user or group then by default, they are denied that ability to interact with those products and services. You may need to enable certain policies before progressing further.</p>
 
-&lt;h1 id=&quot;use-case&quot;&gt;Use Case&lt;/h1&gt;
-&lt;p&gt;Let’s say you have one of the aforementioned databases and it’s hosted on AWS RDS. You want to query that data directly without having to leave AWS, or you want to query that data for analytics (think OLAP or ETL/ELT), or share that data with some other service or partner. Enter RDS Snapshots.&lt;/p&gt;
+<h1 id="use-case">Use Case</h1>
+<p>Let’s say you have one of the aforementioned databases and it’s hosted on AWS RDS. You want to query that data directly without having to leave AWS, or you want to query that data for analytics (think OLAP or ETL/ELT), or share that data with some other service or partner. Enter RDS Snapshots.</p>
 
-&lt;p&gt;“Amazon RDS creates a storage volume snapshot of your DB instance, backing up the entire DB instance and not just individual databases. Creating this DB snapshot on a Single-AZ DB instance results in a brief I/O suspension that can last from a few seconds to a few minutes, depending on the size and class of your DB instance. For MariaDB, MySQL, Oracle, and PostgreSQL, I/O activity is not suspended on your primary during backup for Multi-AZ deployments, because the backup is taken from the standby. For SQL Server, I/O activity is suspended briefly during backup for Multi-AZ deployments.” – You can learn more about snapshots &lt;a href=&quot;https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<p>“Amazon RDS creates a storage volume snapshot of your DB instance, backing up the entire DB instance and not just individual databases. Creating this DB snapshot on a Single-AZ DB instance results in a brief I/O suspension that can last from a few seconds to a few minutes, depending on the size and class of your DB instance. For MariaDB, MySQL, Oracle, and PostgreSQL, I/O activity is not suspended on your primary during backup for Multi-AZ deployments, because the backup is taken from the standby. For SQL Server, I/O activity is suspended briefly during backup for Multi-AZ deployments.” – You can learn more about snapshots <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html">here</a>.</p>
 
-&lt;p&gt;The nice thing about snapshots is they let you take a picture of your RDS data at a single point in time. You can setup recurring snapshots to run weekly or daily, whatever suits your purposes, and you can pick at what times you want a snapshot to run. Perfect for ETL or analytics. However, these snapshots themselves are useless since they’re not accessible for querying. &lt;em&gt;Side note, if you’ve setup &lt;a href=&quot;https://aws.amazon.com/rds/aurora/&quot;&gt;Aurora&lt;/a&gt; you can directly query your data – you don’t need to do snapshots.&lt;/em&gt;&lt;/p&gt;
+<p>The nice thing about snapshots is they let you take a picture of your RDS data at a single point in time. You can setup recurring snapshots to run weekly or daily, whatever suits your purposes, and you can pick at what times you want a snapshot to run. Perfect for ETL or analytics. However, these snapshots themselves are useless since they’re not accessible for querying. <em>Side note, if you’ve setup <a href="https://aws.amazon.com/rds/aurora/">Aurora</a> you can directly query your data – you don’t need to do snapshots.</em></p>
 
-&lt;h2 id=&quot;athena&quot;&gt;Athena&lt;/h2&gt;
-&lt;p&gt;A quick overview of &lt;a href=&quot;https://aws.amazon.com/athena/features/?nc=sn&amp;amp;loc=2&quot;&gt;Athena&lt;/a&gt;. It makes analyzing data directly from S3 using standard SQL incredibly simple. It comes with certain benefits that most serverless products have, such as, no need to worry about scaling, setting up infrastructure or management thereof. It’s secure, leveraging AWS IAM for access, and highly available. It’s easy to query, leveraging &lt;a href=&quot;https://aws.amazon.com/big-data/what-is-presto/&quot;&gt;Presto&lt;/a&gt; for speed and data analytics. When combined with &lt;a href=&quot;https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;amp;whats-new-cards.sort-order=desc&quot;&gt;AWS Glue&lt;/a&gt; you can enrich datasets using other data stores or federated queries. Of course, no data science discussion would be complete without talking about Machine Learning. Athena makes it easy to connect to SageMaker and invoke your models right there.&lt;/p&gt;
+<h2 id="athena">Athena</h2>
+<p>A quick overview of <a href="https://aws.amazon.com/athena/features/?nc=sn&amp;loc=2">Athena</a>. It makes analyzing data directly from S3 using standard SQL incredibly simple. It comes with certain benefits that most serverless products have, such as, no need to worry about scaling, setting up infrastructure or management thereof. It’s secure, leveraging AWS IAM for access, and highly available. It’s easy to query, leveraging <a href="https://aws.amazon.com/big-data/what-is-presto/">Presto</a> for speed and data analytics. When combined with <a href="https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;whats-new-cards.sort-order=desc">AWS Glue</a> you can enrich datasets using other data stores or federated queries. Of course, no data science discussion would be complete without talking about Machine Learning. Athena makes it easy to connect to SageMaker and invoke your models right there.</p>
 
-&lt;h1 id=&quot;here-are-the-main-steps&quot;&gt;Here are the main steps:&lt;/h1&gt;
-&lt;ol&gt;
-  &lt;li&gt;Generate a snapshot&lt;/li&gt;
-  &lt;li&gt;Export snapshot to S3&lt;/li&gt;
-  &lt;li&gt;Access your data with Athena&lt;/li&gt;
-&lt;/ol&gt;
+<h1 id="here-are-the-main-steps">Here are the main steps:</h1>
+<ol>
+  <li>Generate a snapshot</li>
+  <li>Export snapshot to S3</li>
+  <li>Access your data with Athena</li>
+</ol>
 
-&lt;h2 id=&quot;prerequisite&quot;&gt;Prerequisite:&lt;/h2&gt;
-&lt;p&gt;Before we begin this will make your life easier:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Make sure you have all the appropriate privileges to interact with RDS and S3&lt;/li&gt;
-  &lt;li&gt;Select the appropriate Availability Zone (AZ)&lt;/li&gt;
-  &lt;li&gt;Create a S3 bucket for your snapshots (step 2)&lt;/li&gt;
-  &lt;li&gt;Create IAM role (step 2)&lt;/li&gt;
-  &lt;li&gt;Create Encryption (step 2)&lt;/li&gt;
-  &lt;li&gt;Create a S3 bucket for your queries (step 3)&lt;/li&gt;
-&lt;/ul&gt;
+<h2 id="prerequisite">Prerequisite:</h2>
+<p>Before we begin this will make your life easier:</p>
+<ul>
+  <li>Make sure you have all the appropriate privileges to interact with RDS and S3</li>
+  <li>Select the appropriate Availability Zone (AZ)</li>
+  <li>Create a S3 bucket for your snapshots (step 2)</li>
+  <li>Create IAM role (step 2)</li>
+  <li>Create Encryption (step 2)</li>
+  <li>Create a S3 bucket for your queries (step 3)</li>
+</ul>
 
-&lt;h2 id=&quot;generate-a-snapshot&quot;&gt;Generate a snapshot&lt;/h2&gt;
-&lt;p&gt;Generating a snapshot is easy. Type RDS into the search bar, select Databases on the left-hand menu, select the database you want to take a snapshot of, then select the Actions dropdown, click Take snapshot. Give the snapshot a name – I like to do the &lt;strong&gt;&lt;em&gt;{database}-{date}&lt;/em&gt;&lt;/strong&gt;. This will trigger a manual snapshot. Wait for it finish before progressing.&lt;/p&gt;
+<h2 id="generate-a-snapshot">Generate a snapshot</h2>
+<p>Generating a snapshot is easy. Type RDS into the search bar, select Databases on the left-hand menu, select the database you want to take a snapshot of, then select the Actions dropdown, click Take snapshot. Give the snapshot a name – I like to do the <strong><em>{database}-{date}</em></strong>. This will trigger a manual snapshot. Wait for it finish before progressing.</p>
 
-&lt;h2 id=&quot;export-snapshot-to-s3&quot;&gt;Export snapshot to S3&lt;/h2&gt;
-&lt;p&gt;While you’re in the Amazon RDS module, select Snapshots. From there you should see the manual snapshot you just named. Select the snapshot, select Actions, and click Export to Amazon S3.&lt;/p&gt;
+<h2 id="export-snapshot-to-s3">Export snapshot to S3</h2>
+<p>While you’re in the Amazon RDS module, select Snapshots. From there you should see the manual snapshot you just named. Select the snapshot, select Actions, and click Export to Amazon S3.</p>
 
-&lt;p&gt;You now need to fill out configurations for the export:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Specify a name for the export. I like to go with &lt;strong&gt;&lt;em&gt;{snapshot-name}-export&lt;/em&gt;&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Select All or Partial
-    &lt;ul&gt;
-      &lt;li&gt;If you select Partial you will need to know how the tables in your databases are constructed (i.e., schema.table)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Good practice to add a prefix (i.e., “demo/test/snapshots”). This is location within the bucket&lt;/li&gt;
-  &lt;li&gt;Select the appropriate IAM role
-    &lt;ul&gt;
-      &lt;li&gt;If you don’t have one, you can create one which will generate the appropriate policy specifications&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Select Encryption
-    &lt;ul&gt;
-      &lt;li&gt;You probably already have a RDS key when you created your database but if you don’t you can generate one using Key Management Service (KMS) on AWS.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+<p>You now need to fill out configurations for the export:</p>
+<ul>
+  <li>Specify a name for the export. I like to go with <strong><em>{snapshot-name}-export</em></strong>.</li>
+  <li>Select All or Partial
+    <ul>
+      <li>If you select Partial you will need to know how the tables in your databases are constructed (i.e., schema.table)</li>
+    </ul>
+  </li>
+  <li>Good practice to add a prefix (i.e., “demo/test/snapshots”). This is location within the bucket</li>
+  <li>Select the appropriate IAM role
+    <ul>
+      <li>If you don’t have one, you can create one which will generate the appropriate policy specifications</li>
+    </ul>
+  </li>
+  <li>Select Encryption
+    <ul>
+      <li>You probably already have a RDS key when you created your database but if you don’t you can generate one using Key Management Service (KMS) on AWS.</li>
+    </ul>
+  </li>
+</ul>
 
-&lt;p&gt;Then select export to Amazon S3. This process can take some time.&lt;/p&gt;
+<p>Then select export to Amazon S3. This process can take some time.</p>
 
-&lt;h2 id=&quot;access-your-data-with-athena&quot;&gt;Access your data with Athena&lt;/h2&gt;
-&lt;p&gt;In order to leverage Athena, we need to use &lt;a href=&quot;https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;amp;whats-new-cards.sort-order=desc&quot;&gt;AWS Glue&lt;/a&gt;. We’re going to use a Crawler to extract data from S3 and put it into Athena for us to query.&lt;/p&gt;
+<h2 id="access-your-data-with-athena">Access your data with Athena</h2>
+<p>In order to leverage Athena, we need to use <a href="https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;whats-new-cards.sort-order=desc">AWS Glue</a>. We’re going to use a Crawler to extract data from S3 and put it into Athena for us to query.</p>
 
-&lt;p&gt;&lt;strong&gt;Steps&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Within the AWS Console, head over to search bar, type in Crawler&lt;/li&gt;
-  &lt;li&gt;Click Add crawler&lt;/li&gt;
-  &lt;li&gt;Type in a crawler name&lt;/li&gt;
-  &lt;li&gt;Select Data store and crawl all folders
-    &lt;ul&gt;
-      &lt;li&gt;Or specify certain folders&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Select S3 for the data store&lt;/li&gt;
-  &lt;li&gt;Find the path were the exported S3 Snapshot is and select that
-    &lt;ul&gt;
-      &lt;li&gt;Add another data store or select “No” and hit next&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Update, choose, or create an IAM role
-    &lt;ul&gt;
-      &lt;li&gt;&lt;em&gt;Note&lt;/em&gt;: This IAM role will need to have access to the RDS key you setup for your database to decrypt the data in S3. You can add it to the list of users by going to AWS KMS, selecting add, and finding the new or existing IAM role.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Select the frequency in which the crawler should run&lt;/li&gt;
-  &lt;li&gt;Specify a name for the database that will be created due to the crawler&lt;/li&gt;
-  &lt;li&gt;Click Finish&lt;/li&gt;
-&lt;/ul&gt;
+<p><strong>Steps</strong>:</p>
+<ul>
+  <li>Within the AWS Console, head over to search bar, type in Crawler</li>
+  <li>Click Add crawler</li>
+  <li>Type in a crawler name</li>
+  <li>Select Data store and crawl all folders
+    <ul>
+      <li>Or specify certain folders</li>
+    </ul>
+  </li>
+  <li>Select S3 for the data store</li>
+  <li>Find the path were the exported S3 Snapshot is and select that
+    <ul>
+      <li>Add another data store or select “No” and hit next</li>
+    </ul>
+  </li>
+  <li>Update, choose, or create an IAM role
+    <ul>
+      <li><em>Note</em>: This IAM role will need to have access to the RDS key you setup for your database to decrypt the data in S3. You can add it to the list of users by going to AWS KMS, selecting add, and finding the new or existing IAM role.</li>
+    </ul>
+  </li>
+  <li>Select the frequency in which the crawler should run</li>
+  <li>Specify a name for the database that will be created due to the crawler</li>
+  <li>Click Finish</li>
+</ul>
 
-&lt;p&gt;After this a functional database is now in your position to query using Athena, we just need to select it. Before you begin, you’ll need to enable a place on S3 to save your queries. Create a new bucket and point your queries to that bucket.&lt;/p&gt;
+<p>After this a functional database is now in your position to query using Athena, we just need to select it. Before you begin, you’ll need to enable a place on S3 to save your queries. Create a new bucket and point your queries to that bucket.</p>
 
-&lt;p&gt;Now you are all set. Head over to Athena, select query editor, and select the Database you just created.&lt;/p&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="AWS" /><category term="S3" /><category term="AWS RDS" /><category term="Athena" /><summary type="html">This is useful for anyone who’s working with or recently setup AWS RDS. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases: MariaDB MySQL PostgreSQL</summary></entry><entry><title type="html">Apache Airflow: SnowflakeOperator</title><link href="https://deramirez1.github.io/snowflake-apache-airflow/" rel="alternate" type="text/html" title="Apache Airflow: SnowflakeOperator" /><published>2022-01-30T03:48:20-05:00</published><updated>2022-01-30T03:48:20-05:00</updated><id>https://deramirez1.github.io/snowflake-apache-airflow</id><content type="html" xml:base="https://deramirez1.github.io/snowflake-apache-airflow/">&lt;p&gt;If you run into this problem after downloading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt; for Apache Airflow:
-&lt;img src=&quot;/assets/images/airflow-error.PNG&quot; alt=&quot;Airflow Error&quot; /&gt;&lt;/p&gt;
+<p>Now you are all set. Head over to Athena, select query editor, and select the Database you just created.</p>]]></content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="AWS" /><category term="S3" /><category term="AWS RDS" /><category term="Athena" /><summary type="html"><![CDATA[Send your AWS RDS data to S3 then quickly explore without hassle]]></summary></entry><entry><title type="html">Apache Airflow: SnowflakeOperator</title><link href="https://deramirez1.github.io/snowflake-apache-airflow/" rel="alternate" type="text/html" title="Apache Airflow: SnowflakeOperator" /><published>2022-01-30T03:48:20-05:00</published><updated>2022-01-30T03:48:20-05:00</updated><id>https://deramirez1.github.io/snowflake-apache-airflow</id><content type="html" xml:base="https://deramirez1.github.io/snowflake-apache-airflow/"><![CDATA[<p>If you run into this problem after downloading <code class="language-plaintext highlighter-rouge">snowflake-sqlalchemy</code> for Apache Airflow:
+<img src="/assets/images/airflow-error.PNG" alt="Airflow Error" /></p>
 
-&lt;p&gt;That means you probably encountered this error while downloading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt;:&lt;/p&gt;
+<p>That means you probably encountered this error while downloading <code class="language-plaintext highlighter-rouge">snowflake-sqlalchemy</code>:</p>
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/snowflake-SQLAlchemy-issue.PNG&quot; alt=&quot;SQLAlchemy Error&quot; /&gt;&lt;/p&gt;
+<p><img src="/assets/images/snowflake-SQLAlchemy-issue.PNG" alt="SQLAlchemy Error" /></p>
 
-&lt;p&gt;A quick Google search will push you to this &lt;a href=&quot;https://stackoverflow.com/questions/67437595/airflow-db-init-error-failed-to-add-operation-for-get-api-v1-connections&quot;&gt;Stackoverflow question&lt;/a&gt;.&lt;/p&gt;
+<p>A quick Google search will push you to this <a href="https://stackoverflow.com/questions/67437595/airflow-db-init-error-failed-to-add-operation-for-get-api-v1-connections">Stackoverflow question</a>.</p>
 
-&lt;p&gt;This question is pretty helpful and it should give you the idea that you need to downgrade your SQLAlchmey package. Luckly, the Airflow community is aware of the problem and is working to solve it, &lt;a href=&quot;https://github.com/dpgaspar/Flask-AppBuilder/issues/1621&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<p>This question is pretty helpful and it should give you the idea that you need to downgrade your SQLAlchmey package. Luckly, the Airflow community is aware of the problem and is working to solve it, <a href="https://github.com/dpgaspar/Flask-AppBuilder/issues/1621">here</a>.</p>
 
-&lt;p&gt;For me, what fixed the issue was downgraing both &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sqlalchemy&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pip3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;snowflake&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlalchemy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqlalchemy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Apache Airflow" /><category term="Snowflake" /><summary type="html">If you run into this problem after downloading snowflake-sqlalchemy for Apache Airflow:</summary></entry><entry><title type="html">Brilliant.org: Euler’s Totient Function</title><link href="https://deramirez1.github.io/brilliant-eulers-totient-function/" rel="alternate" type="text/html" title="Brilliant.org: Euler’s Totient Function" /><published>2020-06-08T10:30:20-04:00</published><updated>2020-06-08T10:30:20-04:00</updated><id>https://deramirez1.github.io/brilliant-eulers-totient-function</id><content type="html" xml:base="https://deramirez1.github.io/brilliant-eulers-totient-function/">&lt;p&gt;Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the &lt;a href=&quot;https://brilliant.org/wiki/eulers-totient-function/&quot;&gt;wiki&lt;/a&gt;. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.&lt;/p&gt;
+<p>For me, what fixed the issue was downgraing both <code class="language-plaintext highlighter-rouge">sqlalchemy</code> and <code class="language-plaintext highlighter-rouge">snowflake-sqlalchemy</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip3</span> <span class="n">install</span> <span class="n">snowflake</span><span class="o">-</span><span class="n">sqlalchemy</span><span class="o">==</span><span class="mf">1.2</span><span class="p">.</span><span class="mi">4</span> <span class="n">sqlalchemy</span><span class="o">==</span><span class="mf">1.3</span><span class="p">.</span><span class="mi">24</span>
+</code></pre></div></div>]]></content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Apache Airflow" /><category term="Snowflake" /><summary type="html"><![CDATA[Issues When Downloading `snowflake-sqlalchemy`]]></summary></entry><entry><title type="html">Brilliant.org: Euler’s Totient Function</title><link href="https://deramirez1.github.io/brilliant-eulers-totient-function/" rel="alternate" type="text/html" title="Brilliant.org: Euler’s Totient Function" /><published>2020-06-08T10:30:20-04:00</published><updated>2020-06-08T10:30:20-04:00</updated><id>https://deramirez1.github.io/brilliant-eulers-totient-function</id><content type="html" xml:base="https://deramirez1.github.io/brilliant-eulers-totient-function/"><![CDATA[<p>Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the <a href="https://brilliant.org/wiki/eulers-totient-function/">wiki</a>. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.</p>
 
-&lt;p&gt;For example:&lt;br /&gt;
-\(25 = 5^2\) and \(25(1)\)&lt;br /&gt;
-\(9 = 3^2\) and \(9(1)\)&lt;/p&gt;
+<p>For example:<br />
+\(25 = 5^2\) and \(25(1)\)<br />
+\(9 = 3^2\) and \(9(1)\)</p>
 
-&lt;p&gt;The only common divisor between \(25\) and \(9\) is \(1\). Thus, \(25\) and \(9\) are coprime to each other. The shorthand formula to express the count of coprime numbers up to \(n\) is \(\phi(n)\), which is the number of \(m \in\mathbb{N}\) such that \(1\leq m &amp;lt; n\) and \(gcd(m,n) = 1\).&lt;/p&gt;
+<p>The only common divisor between \(25\) and \(9\) is \(1\). Thus, \(25\) and \(9\) are coprime to each other. The shorthand formula to express the count of coprime numbers up to \(n\) is \(\phi(n)\), which is the number of \(m \in\mathbb{N}\) such that \(1\leq m &lt; n\) and \(gcd(m,n) = 1\).</p>
 
-&lt;h3 id=&quot;why-is-this-important&quot;&gt;Why is this important?&lt;/h3&gt;
-&lt;p&gt;If you’re interested in building a cryptosystem you would be interested in this function. In fact, most cryptography is built on some form of number theory using modular arithemtic and very &lt;strong&gt;very&lt;/strong&gt; large numbers. The essence of this boils down to private and public keys, and knowing the solution \(\phi(n)\) allows one to break this code and get the private key, following RSA encruption.&lt;/p&gt;
+<h3 id="why-is-this-important">Why is this important?</h3>
+<p>If you’re interested in building a cryptosystem you would be interested in this function. In fact, most cryptography is built on some form of number theory using modular arithemtic and very <strong>very</strong> large numbers. The essence of this boils down to private and public keys, and knowing the solution \(\phi(n)\) allows one to break this code and get the private key, following RSA encruption.</p>
 
-&lt;h3 id=&quot;example&quot;&gt;Example&lt;/h3&gt;
+<h3 id="example">Example</h3>
 
-&lt;p&gt;Let’s find \(\phi(15)\)&lt;/p&gt;
+<p>Let’s find \(\phi(15)\)</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# multiples of a number are numbers that leave remainder 0
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; has remainder &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># multiples of a number are numbers that leave remainder 0
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> has remainder </span><span class="si">{</span><span class="n">remainder</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1 has remainder 0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 has remainder 0
 3 has remainder 0
 5 has remainder 0
 15 has remainder 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre></div></div>
 
-&lt;p&gt;We have 4 numbers that contain a remainder of \(0: 1, 3, 5,\) and \(15\). We can ignore \(1\) and \(15\) since \(1\) is divisable by all numbers. Let’s rewrite the equation to remove \(1\) and \(15\), and all future instances of that.&lt;/p&gt;
+<p>We have 4 numbers that contain a remainder of \(0: 1, 3, 5,\) and \(15\). We can ignore \(1\) and \(15\) since \(1\) is divisable by all numbers. Let’s rewrite the equation to remove \(1\) and \(15\), and all future instances of that.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# multiples of a number are numbers that leave remainder 0, now removing 1 and the last number
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># multiples of a number are numbers that leave remainder 0, now removing 1 and the last number
+</span><span class="n">num</span> <span class="o">=</span> <span class="mi">15</span>
 
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; has remainder &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s"> has remainder </span><span class="si">{</span><span class="n">remainder</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3 has remainder 0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3 has remainder 0
 5 has remainder 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre></div></div>
 
-&lt;p&gt;Perfect, now that we know which numbers are multiples of \(15\) we need to eliminate all their multiples up to \(15\). Remember, \(\phi(n)\) counts all coprime numbers up to \(n\). We remove all multiples because those multiples are not coprime to \(15\). As an example, \(10\) equals \(5(2)\) and \(1(10)\), \(15\) is a mutliple of \(5\). Since we’re only interested in coprime numbers \(10\) does not make the cut, but \(14\) would. \(14\) is a made up of two prime numbers \(7\) and \(2\). Both those numbers are not multiples of \(15\) so \(14\) counts and so does \(2\) and \(7\).&lt;/p&gt;
+<p>Perfect, now that we know which numbers are multiples of \(15\) we need to eliminate all their multiples up to \(15\). Remember, \(\phi(n)\) counts all coprime numbers up to \(n\). We remove all multiples because those multiples are not coprime to \(15\). As an example, \(10\) equals \(5(2)\) and \(1(10)\), \(15\) is a mutliple of \(5\). Since we’re only interested in coprime numbers \(10\) does not make the cut, but \(14\) would. \(14\) is a made up of two prime numbers \(7\) and \(2\). Both those numbers are not multiples of \(15\) so \(14\) counts and so does \(2\) and \(7\).</p>
 
-&lt;p&gt;To start, imagine \(m\) as a coprime number to \(n\). The count of all the \(m\)s is going to be less than the range of \(n\). Which is represented by the inequality above: the number of \(m \in\mathbb{N}\) such that \(1\leq m &amp;lt; n\). Once we get all the \(m\)s we can take the whole range of \(n\) and subtract the range of \(m\).&lt;/p&gt;
+<p>To start, imagine \(m\) as a coprime number to \(n\). The count of all the \(m\)s is going to be less than the range of \(n\). Which is represented by the inequality above: the number of \(m \in\mathbb{N}\) such that \(1\leq m &lt; n\). Once we get all the \(m\)s we can take the whole range of \(n\) and subtract the range of \(m\).</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;%%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# create a list of all the divisors of n
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove_numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# append all mutliples of the divisors of n to an emptry list
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">divisors</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># create a list of all the divisors of n
+</span><span class="n">remove_numbers</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># append all mutliples of the divisors of n to an emptry list
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">divisors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;remove_numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="k">for</span> <span class="n">div</span> <span class="ow">in</span> <span class="n">divisors</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">remainder</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">div</span>
+        <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">remove_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2.53 µs ± 75.2 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.53 µs ± 75.2 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;numbers_to_n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'The number of coprime numbers from 1-n, solving ϕ(n): &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numbers_to_n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove_numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers_to_n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+<span class="sa">f</span><span class="s">'The number of coprime numbers from 1-n, solving ϕ(n): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">numbers_to_n</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">remove_numbers</span><span class="p">))</span><span class="si">}</span><span class="s">'</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'The number of coprime numbers from 1-n, solving ϕ(n): 8'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'The number of coprime numbers from 1-n, solving ϕ(n): 8'
+</code></pre></div></div>
 
-&lt;p&gt;This solved the equation and it’s relatively fast but it won’t scale. If we needed to run this on really large numbers this would take a while. For example, let’s change the number to something 1,000 times greater and see what the run time is.&lt;/p&gt;
+<p>This solved the equation and it’s relatively fast but it won’t scale. If we needed to run this on really large numbers this would take a while. For example, let’s change the number to something 1,000 times greater and see what the run time is.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;%%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# create a list of all the divisors of n
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove_numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# append all mutliples of the divisors of n to an emptry list
-&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="mi">1001</span><span class="p">)</span>
+<span class="n">divisors</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># create a list of all the divisors of n
+</span><span class="n">remove_numbers</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># append all mutliples of the divisors of n to an emptry list
+</span>
 
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">%</span> <span class="n">i</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">divisors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;divisors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;remainder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;remove_numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="k">for</span> <span class="n">div</span> <span class="ow">in</span> <span class="n">divisors</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">remainder</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">div</span>
+        <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">remove_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2.86 ms ± 49.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.86 ms ± 49.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+</code></pre></div></div>
 
-&lt;p&gt;The runtime for this is 2.86 ms which is roughly 1,000 times that of the 2.51 \(\mu\)s. I suspect at best they scale linearly, the larger the prime the slower it will run. Luckly, a lot of this math is already worked for us. The &lt;a href=&quot;https://www.sympy.org/en/index.html&quot;&gt;SymPy&lt;/a&gt; package takes care of a lot of the heavy lifting for getting the totient.&lt;/p&gt;
+<p>The runtime for this is 2.86 ms which is roughly 1,000 times that of the 2.51 \(\mu\)s. I suspect at best they scale linearly, the larger the prime the slower it will run. Luckly, a lot of this math is already worked for us. The <a href="https://www.sympy.org/en/index.html">SymPy</a> package takes care of a lot of the heavy lifting for getting the totient.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sympy.ntheory&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;totient&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sympy.ntheory</span> <span class="kn">import</span> <span class="n">totient</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;%%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;totient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">totient</span><span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="mi">1001</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;227 ns ± 4.25 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>227 ns ± 4.25 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</code></pre></div></div>
 
-&lt;p&gt;Wow! That was a million times faster than the equation I ran before. This would definitely scale much better. But how does SymPy have such a fast equation? A part of the answer is what I wrote was brute force, required holding memory of each multiplicative, and each number up to \(n\). But more importantly, I’m not running the best equation to figure something like this out. It’s much faster to find some factors of \(n\) such that \(n = ab\), where the \(\gcd(a,b) = 1\) (indicating these are two coprime numbers). That is not a trival ask, and makes light of how difficult it can be to find. But for this theorum, the problem is now broken down into a much easier set of numbers. Since \(ab = n\), if we find all the prime multiplicatives of \(a\) we have found prime numbers between 1 and \(n\), same goes for \(b\). And, since \(a\) can be large if \(n\) is large, we can simplify our notation and make it more general, like’s call it \(p^k\) where \(p\) is some prime number raised to the power of \(k\), which equals \(a\). Heres an example:&lt;/p&gt;
+<p>Wow! That was a million times faster than the equation I ran before. This would definitely scale much better. But how does SymPy have such a fast equation? A part of the answer is what I wrote was brute force, required holding memory of each multiplicative, and each number up to \(n\). But more importantly, I’m not running the best equation to figure something like this out. It’s much faster to find some factors of \(n\) such that \(n = ab\), where the \(\gcd(a,b) = 1\) (indicating these are two coprime numbers). That is not a trival ask, and makes light of how difficult it can be to find. But for this theorum, the problem is now broken down into a much easier set of numbers. Since \(ab = n\), if we find all the prime multiplicatives of \(a\) we have found prime numbers between 1 and \(n\), same goes for \(b\). And, since \(a\) can be large if \(n\) is large, we can simplify our notation and make it more general, like’s call it \(p^k\) where \(p\) is some prime number raised to the power of \(k\), which equals \(a\). Heres an example:</p>
 
 \[5^{2} = 25\]
 
-&lt;p&gt;\(25\) (\(a\)) is made up of two numbers multiplied by each other, specifically \(5\) (\(b\)). Thus \(25\) equals \(5\) raised to the power of \(2\) (\(k\)).&lt;/p&gt;
+<p>\(25\) (\(a\)) is made up of two numbers multiplied by each other, specifically \(5\) (\(b\)). Thus \(25\) equals \(5\) raised to the power of \(2\) (\(k\)).</p>
 
-&lt;p&gt;Sticking with that example, since \(25\) is coprime \(b\) (remember statisfying \(\gcd(25,b) = 1\)) that means all of \(a\)’s multiplicatives statisfy this requirement, \(5^{1}, 5^{2}, 5^{3}..., 5^{k}\). However, the formal range only needs to extend up to \(a\), \([1,p^{k}]\), where \(p^{k}\) in our example is \(25\). There is a formula that generalizes this more and we’re going to use it:&lt;/p&gt;
+<p>Sticking with that example, since \(25\) is coprime \(b\) (remember statisfying \(\gcd(25,b) = 1\)) that means all of \(a\)’s multiplicatives statisfy this requirement, \(5^{1}, 5^{2}, 5^{3}..., 5^{k}\). However, the formal range only needs to extend up to \(a\), \([1,p^{k}]\), where \(p^{k}\) in our example is \(25\). There is a formula that generalizes this more and we’re going to use it:</p>
 
 \[\phi(p^{k}) = p^{(k - 1)}(p - 1)\]
 
-&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Euler%27s_totient_function&quot;&gt;Proof&lt;/a&gt;: since \(p\) is a prime number the only possible values of \(\gcd(p^k, b)\) are \(1, p, p^2, ..., p^k\), and the only way for \(\gcd(p^k, b)\) to not equal 1 is for \(b\) to be a multiple of \(p\). The multiples of \(p\) that are less than or equal to \(p^k\) are \(p, 2p, 3p, ..., p^{k − 1}p = p^k\), and there are \(p^{k − 1}\) of them. Therefore, the other \(p^k − p^{(k − 1)}\) numbers are all relatively prime to \(p^k\).&lt;/p&gt;
+<p><a href="https://en.wikipedia.org/wiki/Euler%27s_totient_function">Proof</a>: since \(p\) is a prime number the only possible values of \(\gcd(p^k, b)\) are \(1, p, p^2, ..., p^k\), and the only way for \(\gcd(p^k, b)\) to not equal 1 is for \(b\) to be a multiple of \(p\). The multiples of \(p\) that are less than or equal to \(p^k\) are \(p, 2p, 3p, ..., p^{k − 1}p = p^k\), and there are \(p^{k − 1}\) of them. Therefore, the other \(p^k − p^{(k − 1)}\) numbers are all relatively prime to \(p^k\).</p>
 
-&lt;p&gt;There’s one more detail that we need to put this all together. Since the totient is multiplicative, \(ab = n\), we can multiply the counts of primes from \(a\) and \(b\). Since \(a\) and \(b\) have a \(\gcd(a,b) = 1\) each prime composing \(a\) or \(b\) is unique. Thus, all \(ab\) pairings, these respective primes multiplied by each other, are unique to \(n\) and produce a coprime to \(n\). Again, this is not a trival fact but it’s very powerful.&lt;/p&gt;
+<p>There’s one more detail that we need to put this all together. Since the totient is multiplicative, \(ab = n\), we can multiply the counts of primes from \(a\) and \(b\). Since \(a\) and \(b\) have a \(\gcd(a,b) = 1\) each prime composing \(a\) or \(b\) is unique. Thus, all \(ab\) pairings, these respective primes multiplied by each other, are unique to \(n\) and produce a coprime to \(n\). Again, this is not a trival fact but it’s very powerful.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sympy.ntheory.factor_&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factorint&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sympy.ntheory.factor_</span> <span class="kn">import</span> <span class="n">factorint</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;factors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factorint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;factors&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">factors</span> <span class="o">=</span> <span class="n">factorint</span><span class="p">(</span><span class="mi">15</span><span class="o">*</span><span class="mi">1001</span><span class="p">)</span>
+<span class="n">factors</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{3: 1, 5: 1, 7: 1, 11: 1, 13: 1}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{3: 1, 5: 1, 7: 1, 11: 1, 13: 1}
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;%%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">t</span> <span class="o">*=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;588 ns ± 5.29 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>588 ns ± 5.29 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</code></pre></div></div>
 
-&lt;p&gt;I used SymPy’s factorint function to get the factors for \(n\). Then I applied SymPy’s formula for finding all the primes factors of \(n\). For example, \(3\) is a factor of \(15(1001)\). Looping through each factor and it’s power, multiplying \(t\) each time it passes, produces the correct number of primes from \(1\) to \(n\). This is the same equation SymPy uses. It’s still slightly slower than the original SymPy function but it’s still significantly faster than the original, around a million times.&lt;/p&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Math" /><category term="Modular Arithmetic" /><summary type="html">Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the wiki. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.</summary></entry><entry><title type="html">Brilliant.org: Spherical Geometry</title><link href="https://deramirez1.github.io/brilliant-spherical-geometry/" rel="alternate" type="text/html" title="Brilliant.org: Spherical Geometry" /><published>2020-05-30T10:30:20-04:00</published><updated>2020-05-30T10:30:20-04:00</updated><id>https://deramirez1.github.io/brilliant-spherical-geometry</id><content type="html" xml:base="https://deramirez1.github.io/brilliant-spherical-geometry/">&lt;p&gt;I’m quite the avid proponent of &lt;a href=&quot;https://brilliant.org/&quot;&gt;Brilliant.org&lt;/a&gt;. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.&lt;/p&gt;
+<p>I used SymPy’s factorint function to get the factors for \(n\). Then I applied SymPy’s formula for finding all the primes factors of \(n\). For example, \(3\) is a factor of \(15(1001)\). Looping through each factor and it’s power, multiplying \(t\) each time it passes, produces the correct number of primes from \(1\) to \(n\). This is the same equation SymPy uses. It’s still slightly slower than the original SymPy function but it’s still significantly faster than the original, around a million times.</p>]]></content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Math" /><category term="Modular Arithmetic" /><summary type="html"><![CDATA[A brief pass at Euler's Totient Function]]></summary></entry><entry><title type="html">Brilliant.org: Spherical Geometry</title><link href="https://deramirez1.github.io/brilliant-spherical-geometry/" rel="alternate" type="text/html" title="Brilliant.org: Spherical Geometry" /><published>2020-05-30T10:30:20-04:00</published><updated>2020-05-30T10:30:20-04:00</updated><id>https://deramirez1.github.io/brilliant-spherical-geometry</id><content type="html" xml:base="https://deramirez1.github.io/brilliant-spherical-geometry/"><![CDATA[<p>I’m quite the avid proponent of <a href="https://brilliant.org/">Brilliant.org</a>. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.</p>
 
-&lt;p&gt;If you want to follow along you can refer to this &lt;a href=&quot;https://brilliant.org/wiki/spherical-geometry/&quot;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
+<p>If you want to follow along you can refer to this <a href="https://brilliant.org/wiki/spherical-geometry/">wiki</a>.</p>
 
-&lt;h2 id=&quot;spherical-geometry&quot;&gt;Spherical Geometry&lt;/h2&gt;
+<h2 id="spherical-geometry">Spherical Geometry</h2>
 
-&lt;p&gt;Spherical geometry is the study of objects on a sphere. It’s similar to Euclidean geometry in that lines, points, and angles are the main tools for understanding those objects. There are three main differences though:&lt;/p&gt;
+<p>Spherical geometry is the study of objects on a sphere. It’s similar to Euclidean geometry in that lines, points, and angles are the main tools for understanding those objects. There are three main differences though:</p>
 
-&lt;ol&gt;
-  &lt;li&gt;There are no parallel lines in spherical geometry. In fact, all great circles, which is the plane that intersects the center of mass of the sphere, intersects in two antipodal points, opposite points of the sphere. &lt;strong&gt;Straight lines are great circles&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Angles in a triangle (each side of which is an arc of a great circle) add up to more than 180 degrees.&lt;/li&gt;
-  &lt;li&gt;Line segments (arcs of great circles) have bounded length, and regions on the surface of the sphere have bounded area.&lt;/li&gt;
-&lt;/ol&gt;
+<ol>
+  <li>There are no parallel lines in spherical geometry. In fact, all great circles, which is the plane that intersects the center of mass of the sphere, intersects in two antipodal points, opposite points of the sphere. <strong>Straight lines are great circles</strong>.</li>
+  <li>Angles in a triangle (each side of which is an arc of a great circle) add up to more than 180 degrees.</li>
+  <li>Line segments (arcs of great circles) have bounded length, and regions on the surface of the sphere have bounded area.</li>
+</ol>
 
-&lt;h2 id=&quot;why-learn-about-spherical-geometry&quot;&gt;Why learn about spherical geometry?&lt;/h2&gt;
-&lt;p&gt;If you’re interested in understanding angles, areas, and distances on Earth this is a very important field. It’s relevant for navigation, cosmology, astronomey, and applications of stereographic projection, think maps (cartography).&lt;/p&gt;
+<h2 id="why-learn-about-spherical-geometry">Why learn about spherical geometry?</h2>
+<p>If you’re interested in understanding angles, areas, and distances on Earth this is a very important field. It’s relevant for navigation, cosmology, astronomey, and applications of stereographic projection, think maps (cartography).</p>
 
-&lt;p&gt;I’ll only use numpy to help illustrate some of the properties of spherical geometry and play around with some examples.&lt;/p&gt;
+<p>I’ll only use numpy to help illustrate some of the properties of spherical geometry and play around with some examples.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+</code></pre></div></div>
 
-&lt;h2 id=&quot;the-minimal-distance&quot;&gt;The minimal distance&lt;/h2&gt;
+<h2 id="the-minimal-distance">The minimal distance</h2>
 
-&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Great-circle_distance&quot;&gt;The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.&lt;/a&gt; The distance between two points is therefore \(R\phi\), where \(R\) is the radius of the sphere and \(\phi\) is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.&lt;/p&gt;
+<p><a href="https://en.wikipedia.org/wiki/Great-circle_distance">The great-circle distance or orthodromic distance is the shortest distance between two points on the surface of the sphere, measured on the the surface of the sphere.</a> The distance between two points is therefore \(R\phi\), where \(R\) is the radius of the sphere and \(\phi\) is the measure (in radians) of the central angle subtended by the radii, a line drawn on the surface of sphere by said angle, to the two points.</p>
 
-&lt;h3 id=&quot;example&quot;&gt;Example:&lt;/h3&gt;
-&lt;p&gt;Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points \((1, 1, \sqrt{2})\) and \((-1, 1, \sqrt{2})\)?&lt;/p&gt;
+<h3 id="example">Example:</h3>
+<p>Taking the example from Brilliant: What is the minimal distance on the sphere, centered at the origin and of radius 2, between points \((1, 1, \sqrt{2})\) and \((-1, 1, \sqrt{2})\)?</p>
 
-&lt;p&gt;Let’s break this down. We received two vectors, \((1, 1, \sqrt{2})\) and \((-1, 1, \sqrt{2})\), our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I’ll use the Vector version:&lt;/p&gt;
+<p>Let’s break this down. We received two vectors, \((1, 1, \sqrt{2})\) and \((-1, 1, \sqrt{2})\), our radius is 2, and now we need our equation. There are several equations we could use, but to stay consistent with the training material on Brilliant I’ll use the Vector version:</p>
 
-&lt;p&gt;\(d = R\Delta\phi\) &lt;br /&gt;
-\(R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})\)&lt;/p&gt;
+<p>\(d = R\Delta\phi\) <br />
+\(R^{2}\Delta\phi = \cos(v_{1} \cdot v_{2})\)</p>
 
-&lt;p&gt;Where \(d\) is the distance on the sphere, \(R\) is the radius of the sphere, and \(v_{1}\) and \(v_{2}\) are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition’s tangnet line on the sphere.&lt;/p&gt;
+<p>Where \(d\) is the distance on the sphere, \(R\) is the radius of the sphere, and \(v_{1}\) and \(v_{2}\) are the normals to the ellipsoid at the two positions 1 and 2. The normals are the perpendicular lines to poisition’s tangnet line on the sphere.</p>
 
-&lt;p&gt;Using the vector equation we need to find the &lt;a href=&quot;https://mathworld.wolfram.com/DotProduct.html&quot;&gt;dot product&lt;/a&gt; of the two vectors. From there we can find the angle, and then the distance using the radius, \(R\).&lt;/p&gt;
+<p>Using the vector equation we need to find the <a href="https://mathworld.wolfram.com/DotProduct.html">dot product</a> of the two vectors. From there we can find the angle, and then the distance using the radius, \(R\).</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# create two vectors
-&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create two vectors
+</span>
+<span class="n">A</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
 
-&lt;span class=&quot;c1&quot;&gt;# get the dot product
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dot_product&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+<span class="c1"># get the dot product
+</span><span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
 
-&lt;span class=&quot;n&quot;&gt;dot_product&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="n">dot_product</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2.0000000000000004
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.0000000000000004
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# radius
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ϕ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arccos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dot_product&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">R</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># radius
+</span><span class="n">ϕ</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot_product</span><span class="o">/</span><span class="p">(</span><span class="n">R</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
 
-&lt;span class=&quot;c1&quot;&gt;# our angle
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Our angle is equal to: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ϕ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is 1/3 of π: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="c1"># our angle
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Our angle is equal to: "</span><span class="p">,</span> <span class="n">ϕ</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"This is 1/3 of π: "</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Our angle is equal to:  1.0471975511965976
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Our angle is equal to:  1.0471975511965976
 This is 1/3 of π:  1.0471975511965976
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# therefore, the distance is
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Rϕ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ϕ&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># therefore, the distance is
+</span><span class="n">Rϕ</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="n">ϕ</span>
 
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The minimal distance given the two vectors is: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Rϕ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is equal to 2π/3: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="k">print</span><span class="p">(</span><span class="s">"The minimal distance given the two vectors is: "</span><span class="p">,</span> <span class="n">Rϕ</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"This is equal to 2π/3: "</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The minimal distance given the two vectors is:  2.0943951023931953
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The minimal distance given the two vectors is:  2.0943951023931953
 This is equal to 2π/3:  2.0943951023931953
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre></div></div>
 
-&lt;p&gt;Now that we have a functional example, let’s extend this to allow for many points that might come in as vectors.&lt;/p&gt;
+<p>Now that we have a functional example, let’s extend this to allow for many points that might come in as vectors.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;spherical_distance_vectors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;point_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;point_B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;dot_product&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;point_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;point_B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ϕ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arccos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dot_product&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ϕ&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The distance between points&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;point_A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;and&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;point_B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;is equal to:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;distance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">spherical_distance_vectors</span><span class="p">(</span><span class="n">point_A</span><span class="p">,</span> <span class="n">point_B</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+    <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">point_A</span><span class="p">,</span> <span class="n">point_B</span><span class="p">)</span>
+    <span class="n">ϕ</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot_product</span> <span class="o">/</span> <span class="p">(</span><span class="n">radius</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">ϕ</span>
+    <span class="k">return</span> <span class="k">print</span><span class="p">(</span><span class="s">"The distance between points"</span><span class="p">,</span> <span class="n">point_A</span><span class="p">,</span> <span class="s">"and"</span><span class="p">,</span> <span class="n">point_B</span><span class="p">,</span><span class="s">"is equal to:"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">round_</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;vectors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random_sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# create a matrix (x , 3). I picked 5 by 3.
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;20.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# set the radius
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vectors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# append the radius to the last column
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vectors&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vectors</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random_sample</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># create a matrix (x , 3). I picked 5 by 3.
+</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">20.</span> <span class="c1"># set the radius
+</span><span class="n">vectors</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span> <span class="c1"># append the radius to the last column
+</span><span class="n">vectors</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;array([[7.38566540e-03, 3.24902955e+00, 4.47213595e+00],
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[7.38566540e-03, 3.24902955e+00, 4.47213595e+00],
        [4.17878062e+00, 6.28529588e+00, 4.47213595e+00],
        [6.42920002e+00, 1.73161261e+00, 4.47213595e+00],
        [8.47919453e+00, 1.00304819e+00, 4.47213595e+00],
        [6.33512133e+00, 6.60878065e+00, 4.47213595e+00]])
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;itertools&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 
-&lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# generate a genertic index list to use to get the right points without duplicate analysis
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;spherical_distance_vectors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vectors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]],&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vectors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]],&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="n">combinations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># generate a genertic index list to use to get the right points without duplicate analysis
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">combinations</span><span class="p">)):</span>
+    <span class="n">spherical_distance_vectors</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">round_</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]],</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">round_</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">1</span><span class="p">]],</span><span class="mi">3</span><span class="p">),</span> <span class="n">radius</span><span class="p">)</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The distance between points [0.007 3.249 4.472] and [4.179 6.285 4.472] is equal to: 29.39
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The distance between points [0.007 3.249 4.472] and [4.179 6.285 4.472] is equal to: 29.39
 The distance between points [0.007 3.249 4.472] and [6.429 1.732 4.472] is equal to: 30.131
 The distance between points [0.007 3.249 4.472] and [8.479 1.003 4.472] is equal to: 30.249
 The distance between points [0.007 3.249 4.472] and [6.335 6.609 4.472] is equal to: 29.336
@@ -367,52 +367,52 @@ The distance between points [4.179 6.285 4.472] and [6.335 6.609 4.472] is equal
 The distance between points [6.429 1.732 4.472] and [8.479 1.003 4.472] is equal to: 27.58
 The distance between points [6.429 1.732 4.472] and [6.335 6.609 4.472] is equal to: 27.787
 The distance between points [8.479 1.003 4.472] and [6.335 6.609 4.472] is equal to: 27.371
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</code></pre></div></div>
 
-&lt;h3 id=&quot;vector-distance-plotted&quot;&gt;Vector Distance Plotted&lt;/h3&gt;
+<h3 id="vector-distance-plotted">Vector Distance Plotted</h3>
 
-&lt;p&gt;This is nice but it could be beneficial to see the distance laid out for us. Luckly, that’s doable with matplotlib and this handy work from &lt;a href=&quot;&amp;quot;https://stackoverflow.com/questions/11140163/plotting-a-3d-cube-a-sphere-and-a-vector-in-matplotlib&amp;quot;&quot;&gt;stack overflow&lt;/a&gt;.&lt;/p&gt;
+<p>This is nice but it could be beneficial to see the distance laid out for us. Luckly, that’s doable with matplotlib and this handy work from <a href="&quot;https://stackoverflow.com/questions/11140163/plotting-a-3d-cube-a-sphere-and-a-vector-in-matplotlib&quot;">stack overflow</a>.</p>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mpl_toolkits.mplot3d&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Axes3D&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;itertools&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;product&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;combinations&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span><span class="p">,</span> <span class="n">combinations</span>
+</code></pre></div></div>
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;figure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;figsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gca&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'3d'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span> <span class="o">=</span> <span class="s">'3d'</span><span class="p">)</span>
 
-&lt;span class=&quot;c1&quot;&gt;# draw the sphere we want to plot
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mgrid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;20j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot_wireframe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+<span class="c1"># draw the sphere we want to plot
+</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="p">:</span><span class="mf">20j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="p">:</span><span class="mf">10j</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot_wireframe</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"r"</span><span class="p">)</span>
 
-&lt;span class=&quot;c1&quot;&gt;# draw a point
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+<span class="c1"># draw a point
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">"g"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-&lt;span class=&quot;c1&quot;&gt;# draw a vector
-&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.patches&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FancyArrowPatch&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mpl_toolkits.mplot3d&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;proj3d&lt;/span&gt;
+<span class="c1"># draw a vector
+</span><span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">FancyArrowPatch</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">proj3d</span>
 
 
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Arrow3D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FancyArrowPatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+<span class="k">class</span> <span class="nc">Arrow3D</span><span class="p">(</span><span class="n">FancyArrowPatch</span><span class="p">):</span>
 
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;FancyArrowPatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_verts3d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zs&lt;/span&gt;
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">FancyArrowPatch</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_verts3d</span> <span class="o">=</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span>
 
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;xs3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zs3d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_verts3d&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;proj3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;proj_transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zs3d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_positions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;FancyArrowPatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">):</span>
+        <span class="n">xs3d</span><span class="p">,</span> <span class="n">ys3d</span><span class="p">,</span> <span class="n">zs3d</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_verts3d</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span> <span class="o">=</span> <span class="n">proj3d</span><span class="p">.</span><span class="n">proj_transform</span><span class="p">(</span><span class="n">xs3d</span><span class="p">,</span> <span class="n">ys3d</span><span class="p">,</span> <span class="n">zs3d</span><span class="p">,</span> <span class="n">renderer</span><span class="p">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">set_positions</span><span class="p">((</span><span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">FancyArrowPatch</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">)</span>
 
-&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Arrow3D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mutation_scale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;lw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arrowstyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-|&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Arrow3D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mutation_scale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;lw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arrowstyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-|&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Math" /><category term="Geometry" /><category term="Linear Algebra" /><summary type="html">I’m quite the avid proponent of Brilliant.org. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.</summary></entry></feed>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Arrow3D</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span> <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s">"-|&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"k"</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">Arrow3D</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span> <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s">"-|&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"k"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>]]></content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Math" /><category term="Geometry" /><category term="Linear Algebra" /><summary type="html"><![CDATA[An introduction to Spherical Geometry]]></summary></entry></feed>
