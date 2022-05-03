@@ -1,6 +1,6 @@
 ---
 title: "Apache Airflow: SnowflakeOperator"
-date: 2021-01-30 11:48:20 +0300
+date: 2022-01-30 11:48:20 +0300
 description: Issues When Downloading `snowflake-sqlalchemy`
 tags: 
     - Apache Airflow

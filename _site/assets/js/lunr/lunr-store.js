@@ -16,4 +16,10 @@ var store = [{
         "tags": ["Apache Airflow","Snowflake"],
         "url": "/snowflake-apache-airflow/",
         "teaser": "/assets/images/default.jpg"
+      },{
+        "title": "AWS RDS to S3: Your Data Easy and Fast",
+        "excerpt":"This is useful for anyone who’s working with or recently setup AWS RDS. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases: MariaDB MySQL PostgreSQL Note: Before I dive in, AWS works very hard to make sure...","categories": [],
+        "tags": ["AWS","S3","AWS RDS","Athena"],
+        "url": "/aws-rds-to-s3/",
+        "teaser": "/assets/images/default.jpg"
       }]

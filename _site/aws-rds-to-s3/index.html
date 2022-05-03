@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Apache Airflow: SnowflakeOperator | Laboratory</title>
-<meta name="description" content="Issues When Downloading snowflake-sqlalchemy">
+<!-- begin _includes/seo.html --><title>AWS RDS to S3: Your Data Easy and Fast | Laboratory</title>
+<meta name="description" content="Send your AWS RDS data to S3 then quickly explore without hassle">
 
 
   <meta name="author" content="David Ramirez">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Laboratory">
-<meta property="og:title" content="Apache Airflow: SnowflakeOperator">
-<meta property="og:url" content="https://deramirez1.github.io/snowflake-apache-airflow/">
+<meta property="og:title" content="AWS RDS to S3: Your Data Easy and Fast">
+<meta property="og:url" content="https://deramirez1.github.io/aws-rds-to-s3/">
 
 
-  <meta property="og:description" content="Issues When Downloading snowflake-sqlalchemy">
+  <meta property="og:description" content="Send your AWS RDS data to S3 then quickly explore without hassle">
 
 
 
@@ -35,9 +35,9 @@
 
 
   <meta name="twitter:site" content="@dave_e_ramirez">
-  <meta name="twitter:title" content="Apache Airflow: SnowflakeOperator">
-  <meta name="twitter:description" content="Issues When Downloading snowflake-sqlalchemy">
-  <meta name="twitter:url" content="https://deramirez1.github.io/snowflake-apache-airflow/">
+  <meta name="twitter:title" content="AWS RDS to S3: Your Data Easy and Fast">
+  <meta name="twitter:description" content="Send your AWS RDS data to S3 then quickly explore without hassle">
+  <meta name="twitter:url" content="https://deramirez1.github.io/aws-rds-to-s3/">
 
   
     <meta name="twitter:card" content="summary">
@@ -50,7 +50,7 @@
 
 
 
-  <meta property="article:published_time" content="2022-01-30T03:48:20-05:00">
+  <meta property="article:published_time" content="2022-05-01T10:40:20-04:00">
 
 
 
@@ -61,7 +61,7 @@
   
 
 
-<link rel="canonical" href="https://deramirez1.github.io/snowflake-apache-airflow/">
+<link rel="canonical" href="https://deramirez1.github.io/aws-rds-to-s3/">
 
 
 
@@ -299,16 +299,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Apache Airflow: SnowflakeOperator">
-    <meta itemprop="description" content="If you run into this problem after downloading snowflake-sqlalchemy for Apache Airflow:">
-    <meta itemprop="datePublished" content="2022-01-30T03:48:20-05:00">
+    <meta itemprop="headline" content="AWS RDS to S3: Your Data Easy and Fast">
+    <meta itemprop="description" content="This is useful for anyone who’s working with or recently setup AWS RDS. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases:  MariaDB  MySQL  PostgreSQL">
+    <meta itemprop="datePublished" content="2022-05-01T10:40:20-04:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://deramirez1.github.io/snowflake-apache-airflow/" class="u-url" itemprop="url">Apache Airflow: SnowflakeOperator
+            <a href="https://deramirez1.github.io/aws-rds-to-s3/" class="u-url" itemprop="url">AWS RDS to S3: Your Data Easy and Fast
 </a>
           </h1>
           
@@ -325,7 +325,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          5 minute read
         
       </span>
     
@@ -337,21 +337,105 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p>If you run into this problem after downloading <code class="language-plaintext highlighter-rouge">snowflake-sqlalchemy</code> for Apache Airflow:
-<img src="/assets/images/airflow-error.PNG" alt="Airflow Error" /></p>
+        <p>This is useful for anyone who’s working with or recently setup <a href="https://aws.amazon.com/rds/">AWS RDS</a>. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases:</p>
+<ul>
+  <li>MariaDB</li>
+  <li>MySQL</li>
+  <li>PostgreSQL</li>
+</ul>
 
-<p>That means you probably encountered this error while downloading <code class="language-plaintext highlighter-rouge">snowflake-sqlalchemy</code>:</p>
+<h3 id="note">Note:</h3>
+<p>Before I dive in, AWS works very hard to make sure every service is secure. Part of that security is making sure the right users and/or groups of users are not interfering with products or services which are not applicable to them. In order to do that, Identity and Access Management (IAM) is used to manage individuals and/or groups of individuals access to products and services. To that end, if a policy is not enabled for a certain user or group then by default, they are denied that ability to interact with those products and services. You may need to enable certain policies before progressing further.</p>
 
-<p><img src="/assets/images/snowflake-SQLAlchemy-issue.PNG" alt="SQLAlchemy Error" /></p>
+<h1 id="use-case">Use Case</h1>
+<p>Let’s say you have one of the aforementioned databases and it’s hosted on AWS RDS. You want to query that data directly without having to leave AWS, or you want to query that data for analytics (think OLAP or ETL/ELT), or share that data with some other service or partner. Enter RDS Snapshots.</p>
 
-<p>A quick Google search will push you to this <a href="https://stackoverflow.com/questions/67437595/airflow-db-init-error-failed-to-add-operation-for-get-api-v1-connections">Stackoverflow question</a>.</p>
+<p>“Amazon RDS creates a storage volume snapshot of your DB instance, backing up the entire DB instance and not just individual databases. Creating this DB snapshot on a Single-AZ DB instance results in a brief I/O suspension that can last from a few seconds to a few minutes, depending on the size and class of your DB instance. For MariaDB, MySQL, Oracle, and PostgreSQL, I/O activity is not suspended on your primary during backup for Multi-AZ deployments, because the backup is taken from the standby. For SQL Server, I/O activity is suspended briefly during backup for Multi-AZ deployments.” – You can learn more about snapshots <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html">here</a>.</p>
 
-<p>This question is pretty helpful and it should give you the idea that you need to downgrade your SQLAlchmey package. Luckly, the Airflow community is aware of the problem and is working to solve it, <a href="https://github.com/dpgaspar/Flask-AppBuilder/issues/1621">here</a>.</p>
+<p>The nice thing about snapshots is they let you take a picture of your RDS data at a single point in time. You can setup recurring snapshots to run weekly or daily, whatever suits your purposes, and you can pick at what times you want a snapshot to run. Perfect for ETL or analytics. However, these snapshots themselves are useless since they’re not accessible for querying. <em>Side note, if you’ve setup <a href="https://aws.amazon.com/rds/aurora/">Aurora</a> you can directly query your data – you don’t need to do snapshots.</em></p>
 
-<p>For me, what fixed the issue was downgraing both <code class="language-plaintext highlighter-rouge">sqlalchemy</code> and <code class="language-plaintext highlighter-rouge">snowflake-sqlalchemy</code>:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip3</span> <span class="n">install</span> <span class="n">snowflake</span><span class="o">-</span><span class="n">sqlalchemy</span><span class="o">==</span><span class="mf">1.2</span><span class="p">.</span><span class="mi">4</span> <span class="n">sqlalchemy</span><span class="o">==</span><span class="mf">1.3</span><span class="p">.</span><span class="mi">24</span>
-</code></pre></div></div>
+<h2 id="athena">Athena</h2>
+<p>A quick overview of <a href="https://aws.amazon.com/athena/features/?nc=sn&amp;loc=2">Athena</a>. It makes analyzing data directly from S3 using standard SQL incredibly simple. It comes with certain benefits that most serverless products have, such as, no need to worry about scaling, setting up infrastructure or management thereof. It’s secure, leveraging AWS IAM for access, and highly available. It’s easy to query, leveraging <a href="https://aws.amazon.com/big-data/what-is-presto/">Presto</a> for speed and data analytics. When combined with <a href="https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;whats-new-cards.sort-order=desc">AWS Glue</a> you can enrich datasets using other data stores or federated queries. Of course, no data science discussion would be complete without talking about Machine Learning. Athena makes it easy to connect to SageMaker and invoke your models right there.</p>
 
+<h1 id="here-are-the-main-steps">Here are the main steps:</h1>
+<ol>
+  <li>Generate a snapshot</li>
+  <li>Export snapshot to S3</li>
+  <li>Access your data with Athena</li>
+</ol>
+
+<h2 id="prerequisite">Prerequisite:</h2>
+<p>Before we begin this will make your life easier:</p>
+<ul>
+  <li>Make sure you have all the appropriate privileges to interact with RDS and S3</li>
+  <li>Select the appropriate Availability Zone (AZ)</li>
+  <li>Create a S3 bucket for your snapshots (step 2)</li>
+  <li>Create IAM role (step 2)</li>
+  <li>Create Encryption (step 2)</li>
+  <li>Create a S3 bucket for your queries (step 3)</li>
+</ul>
+
+<h2 id="generate-a-snapshot">Generate a snapshot</h2>
+<p>Generating a snapshot is easy. Type RDS into the search bar, select Databases on the left-hand menu, select the database you want to take a snapshot of, then select the Actions dropdown, click Take snapshot. Give the snapshot a name – I like to do the <strong><em>{database}-{date}</em></strong>. This will trigger a manual snapshot. Wait for it finish before progressing.</p>
+
+<h2 id="export-snapshot-to-s3">Export snapshot to S3</h2>
+<p>While you’re in the Amazon RDS module, select Snapshots. From there you should see the manual snapshot you just named. Select the snapshot, select Actions, and click Export to Amazon S3.</p>
+
+<p>You now need to fill out configurations for the export:</p>
+<ul>
+  <li>Specify a name for the export. I like to go with <strong><em>{snapshot-name}-export</em></strong>.</li>
+  <li>Select All or Partial
+    <ul>
+      <li>If you select Partial you will need to know how the tables in your databases are constructed (i.e., schema.table)</li>
+    </ul>
+  </li>
+  <li>Good practice to add a prefix (i.e., “demo/test/snapshots”). This is location within the bucket</li>
+  <li>Select the appropriate IAM role
+    <ul>
+      <li>If you don’t have one, you can create one which will generate the appropriate policy specifications</li>
+    </ul>
+  </li>
+  <li>Select Encryption
+    <ul>
+      <li>You probably already have a RDS key when you created your database but if you don’t you can generate one using Key Management Service (KMS) on AWS.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Then select export to Amazon S3. This process can take some time.</p>
+
+<h2 id="access-your-data-with-athena">Access your data with Athena</h2>
+<p>In order to leverage Athena, we need to use <a href="https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;whats-new-cards.sort-order=desc">AWS Glue</a>. We’re going to use a Crawler to extract data from S3 and put it into Athena for us to query.</p>
+
+<p><strong>Steps</strong>:</p>
+<ul>
+  <li>Within the AWS Console, head over to search bar, type in Crawler</li>
+  <li>Click Add crawler</li>
+  <li>Type in a crawler name</li>
+  <li>Select Data store and crawl all folders
+    <ul>
+      <li>Or specify certain folders</li>
+    </ul>
+  </li>
+  <li>Select S3 for the data store</li>
+  <li>Find the path were the exported S3 Snapshot is and select that
+    <ul>
+      <li>Add another data store or select “No” and hit next</li>
+    </ul>
+  </li>
+  <li>Update, choose, or create an IAM role
+    <ul>
+      <li><em>Note</em>: This IAM role will need to have access to the RDS key you setup for your database to decrypt the data in S3. You can add it to the list of users by going to AWS KMS, selecting add, and finding the new or existing IAM role.</li>
+    </ul>
+  </li>
+  <li>Select the frequency in which the crawler should run</li>
+  <li>Specify a name for the database that will be created due to the crawler</li>
+  <li>Click Finish</li>
+</ul>
+
+<p>After this a functional database is now in your position to query using Athena, we just need to select it. Before you begin, you’ll need to enable a place on S3 to save your queries. Create a new bucket and point your queries to that bucket.</p>
+
+<p>Now you are all set. Head over to Athena, select query editor, and select the Database you just created.</p>
 
         
       </section>
@@ -368,9 +452,13 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#apache-airflow" class="page__taxonomy-item p-category" rel="tag">Apache Airflow</a><span class="sep">, </span>
+      <a href="/tags/#athena" class="page__taxonomy-item p-category" rel="tag">Athena</a><span class="sep">, </span>
     
-      <a href="/tags/#snowflake" class="page__taxonomy-item p-category" rel="tag">Snowflake</a>
+      <a href="/tags/#aws" class="page__taxonomy-item p-category" rel="tag">AWS</a><span class="sep">, </span>
+    
+      <a href="/tags/#aws-rds" class="page__taxonomy-item p-category" rel="tag">AWS RDS</a><span class="sep">, </span>
+    
+      <a href="/tags/#s3" class="page__taxonomy-item p-category" rel="tag">S3</a>
     
     </span>
   </p>
@@ -380,30 +468,29 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-30T03:48:20-05:00">January 30, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-05-01T10:40:20-04:00">May 1, 2022</time></p>
 
       </footer>
 
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?via=dave_e_ramirez&text=Apache+Airflow%3A+SnowflakeOperator%20https%3A%2F%2Fderamirez1.github.io%2Fsnowflake-apache-airflow%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=dave_e_ramirez&text=AWS+RDS+to+S3%3A+Your+Data+Easy+and+Fast%20https%3A%2F%2Fderamirez1.github.io%2Faws-rds-to-s3%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fderamirez1.github.io%2Fsnowflake-apache-airflow%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fderamirez1.github.io%2Faws-rds-to-s3%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fderamirez1.github.io%2Fsnowflake-apache-airflow%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fderamirez1.github.io%2Faws-rds-to-s3%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/brilliant-eulers-totient-function/" class="pagination--pager" title="Brilliant.org: Euler’s Totient Function
+      <a href="/snowflake-apache-airflow/" class="pagination--pager" title="Apache Airflow: SnowflakeOperator
 ">Previous</a>
     
     
-      <a href="/aws-rds-to-s3/" class="pagination--pager" title="AWS RDS to S3: Your Data Easy and Fast
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -431,7 +518,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/aws-rds-to-s3/" rel="permalink">AWS RDS to S3: Your Data Easy and Fast
+        <a href="/snowflake-apache-airflow/" rel="permalink">Apache Airflow: SnowflakeOperator
 </a>
       
     </h2>
@@ -449,14 +536,17 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          less than 1 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">This is useful for anyone who’s working with or recently setup AWS RDS. I’ll only consider working with the Console instead of the CLI. This works for most o...</p>
+    <p class="archive__item-excerpt" itemprop="description">If you run into this problem after downloading snowflake-sqlalchemy for Apache Airflow:
+
+
+</p>
   </article>
 </div>
 
@@ -600,8 +690,8 @@
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://deramirez1.github.io/snowflake-apache-airflow/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/snowflake-apache-airflow"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "https://deramirez1.github.io/aws-rds-to-s3/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/aws-rds-to-s3"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');

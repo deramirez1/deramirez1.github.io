@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-30T13:17:25-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Laboratory</title><subtitle>Data Science/Mathematics/DevOps</subtitle><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><entry><title type="html">Apache Airflow: SnowflakeOperator</title><link href="http://localhost:4000/snowflake-apache-airflow/" rel="alternate" type="text/html" title="Apache Airflow: SnowflakeOperator" /><published>2021-01-30T03:48:20-05:00</published><updated>2021-01-30T03:48:20-05:00</updated><id>http://localhost:4000/snowflake-apache-airflow</id><content type="html" xml:base="http://localhost:4000/snowflake-apache-airflow/">&lt;p&gt;If you run into this problem after downloading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt; for Apache Airflow:
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://deramirez1.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://deramirez1.github.io/" rel="alternate" type="text/html" /><updated>2022-05-02T23:16:30-04:00</updated><id>https://deramirez1.github.io/feed.xml</id><title type="html">Laboratory</title><subtitle>Data Science/Mathematics/DevOps</subtitle><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><entry><title type="html">AWS RDS to S3: Your Data Easy and Fast</title><link href="https://deramirez1.github.io/aws-rds-to-s3/" rel="alternate" type="text/html" title="AWS RDS to S3: Your Data Easy and Fast" /><published>2022-05-01T10:40:20-04:00</published><updated>2022-05-01T10:40:20-04:00</updated><id>https://deramirez1.github.io/aws-rds-to-s3</id><content type="html" xml:base="https://deramirez1.github.io/aws-rds-to-s3/">&lt;p&gt;This is useful for anyone who’s working with or recently setup &lt;a href=&quot;https://aws.amazon.com/rds/&quot;&gt;AWS RDS&lt;/a&gt;. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;MariaDB&lt;/li&gt;
+  &lt;li&gt;MySQL&lt;/li&gt;
+  &lt;li&gt;PostgreSQL&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;note&quot;&gt;Note:&lt;/h3&gt;
+&lt;p&gt;Before I dive in, AWS works very hard to make sure every service is secure. Part of that security is making sure the right users and/or groups of users are not interfering with products or services which are not applicable to them. In order to do that, Identity and Access Management (IAM) is used to manage individuals and/or groups of individuals access to products and services. To that end, if a policy is not enabled for a certain user or group then by default, they are denied that ability to interact with those products and services. You may need to enable certain policies before progressing further.&lt;/p&gt;
+
+&lt;h1 id=&quot;use-case&quot;&gt;Use Case&lt;/h1&gt;
+&lt;p&gt;Let’s say you have one of the aforementioned databases and it’s hosted on AWS RDS. You want to query that data directly without having to leave AWS, or you want to query that data for analytics (think OLAP or ETL/ELT), or share that data with some other service or partner. Enter RDS Snapshots.&lt;/p&gt;
+
+&lt;p&gt;“Amazon RDS creates a storage volume snapshot of your DB instance, backing up the entire DB instance and not just individual databases. Creating this DB snapshot on a Single-AZ DB instance results in a brief I/O suspension that can last from a few seconds to a few minutes, depending on the size and class of your DB instance. For MariaDB, MySQL, Oracle, and PostgreSQL, I/O activity is not suspended on your primary during backup for Multi-AZ deployments, because the backup is taken from the standby. For SQL Server, I/O activity is suspended briefly during backup for Multi-AZ deployments.” – You can learn more about snapshots &lt;a href=&quot;https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The nice thing about snapshots is they let you take a picture of your RDS data at a single point in time. You can setup recurring snapshots to run weekly or daily, whatever suits your purposes, and you can pick at what times you want a snapshot to run. Perfect for ETL or analytics. However, these snapshots themselves are useless since they’re not accessible for querying. &lt;em&gt;Side note, if you’ve setup &lt;a href=&quot;https://aws.amazon.com/rds/aurora/&quot;&gt;Aurora&lt;/a&gt; you can directly query your data – you don’t need to do snapshots.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;athena&quot;&gt;Athena&lt;/h2&gt;
+&lt;p&gt;A quick overview of &lt;a href=&quot;https://aws.amazon.com/athena/features/?nc=sn&amp;amp;loc=2&quot;&gt;Athena&lt;/a&gt;. It makes analyzing data directly from S3 using standard SQL incredibly simple. It comes with certain benefits that most serverless products have, such as, no need to worry about scaling, setting up infrastructure or management thereof. It’s secure, leveraging AWS IAM for access, and highly available. It’s easy to query, leveraging &lt;a href=&quot;https://aws.amazon.com/big-data/what-is-presto/&quot;&gt;Presto&lt;/a&gt; for speed and data analytics. When combined with &lt;a href=&quot;https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;amp;whats-new-cards.sort-order=desc&quot;&gt;AWS Glue&lt;/a&gt; you can enrich datasets using other data stores or federated queries. Of course, no data science discussion would be complete without talking about Machine Learning. Athena makes it easy to connect to SageMaker and invoke your models right there.&lt;/p&gt;
+
+&lt;h1 id=&quot;here-are-the-main-steps&quot;&gt;Here are the main steps:&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;Generate a snapshot&lt;/li&gt;
+  &lt;li&gt;Export snapshot to S3&lt;/li&gt;
+  &lt;li&gt;Access your data with Athena&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;prerequisite&quot;&gt;Prerequisite:&lt;/h2&gt;
+&lt;p&gt;Before we begin this will make your life easier:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Make sure you have all the appropriate privileges to interact with RDS and S3&lt;/li&gt;
+  &lt;li&gt;Select the appropriate Availability Zone (AZ)&lt;/li&gt;
+  &lt;li&gt;Create a S3 bucket for your snapshots (step 2)&lt;/li&gt;
+  &lt;li&gt;Create IAM role (step 2)&lt;/li&gt;
+  &lt;li&gt;Create Encryption (step 2)&lt;/li&gt;
+  &lt;li&gt;Create a S3 bucket for your queries (step 3)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;generate-a-snapshot&quot;&gt;Generate a snapshot&lt;/h2&gt;
+&lt;p&gt;Generating a snapshot is easy. Type RDS into the search bar, select Databases on the left-hand menu, select the database you want to take a snapshot of, then select the Actions dropdown, click Take snapshot. Give the snapshot a name – I like to do the &lt;strong&gt;&lt;em&gt;{database}-{date}&lt;/em&gt;&lt;/strong&gt;. This will trigger a manual snapshot. Wait for it finish before progressing.&lt;/p&gt;
+
+&lt;h2 id=&quot;export-snapshot-to-s3&quot;&gt;Export snapshot to S3&lt;/h2&gt;
+&lt;p&gt;While you’re in the Amazon RDS module, select Snapshots. From there you should see the manual snapshot you just named. Select the snapshot, select Actions, and click Export to Amazon S3.&lt;/p&gt;
+
+&lt;p&gt;You now need to fill out configurations for the export:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Specify a name for the export. I like to go with &lt;strong&gt;&lt;em&gt;{snapshot-name}-export&lt;/em&gt;&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Select All or Partial
+    &lt;ul&gt;
+      &lt;li&gt;If you select Partial you will need to know how the tables in your databases are constructed (i.e., schema.table)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Good practice to add a prefix (i.e., “demo/test/snapshots”). This is location within the bucket&lt;/li&gt;
+  &lt;li&gt;Select the appropriate IAM role
+    &lt;ul&gt;
+      &lt;li&gt;If you don’t have one, you can create one which will generate the appropriate policy specifications&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Select Encryption
+    &lt;ul&gt;
+      &lt;li&gt;You probably already have a RDS key when you created your database but if you don’t you can generate one using Key Management Service (KMS) on AWS.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Then select export to Amazon S3. This process can take some time.&lt;/p&gt;
+
+&lt;h2 id=&quot;access-your-data-with-athena&quot;&gt;Access your data with Athena&lt;/h2&gt;
+&lt;p&gt;In order to leverage Athena, we need to use &lt;a href=&quot;https://aws.amazon.com/glue/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;amp;whats-new-cards.sort-order=desc&quot;&gt;AWS Glue&lt;/a&gt;. We’re going to use a Crawler to extract data from S3 and put it into Athena for us to query.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Steps&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Within the AWS Console, head over to search bar, type in Crawler&lt;/li&gt;
+  &lt;li&gt;Click Add crawler&lt;/li&gt;
+  &lt;li&gt;Type in a crawler name&lt;/li&gt;
+  &lt;li&gt;Select Data store and crawl all folders
+    &lt;ul&gt;
+      &lt;li&gt;Or specify certain folders&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Select S3 for the data store&lt;/li&gt;
+  &lt;li&gt;Find the path were the exported S3 Snapshot is and select that
+    &lt;ul&gt;
+      &lt;li&gt;Add another data store or select “No” and hit next&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Update, choose, or create an IAM role
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;Note&lt;/em&gt;: This IAM role will need to have access to the RDS key you setup for your database to decrypt the data in S3. You can add it to the list of users by going to AWS KMS, selecting add, and finding the new or existing IAM role.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Select the frequency in which the crawler should run&lt;/li&gt;
+  &lt;li&gt;Specify a name for the database that will be created due to the crawler&lt;/li&gt;
+  &lt;li&gt;Click Finish&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After this a functional database is now in your position to query using Athena, we just need to select it. Before you begin, you’ll need to enable a place on S3 to save your queries. Create a new bucket and point your queries to that bucket.&lt;/p&gt;
+
+&lt;p&gt;Now you are all set. Head over to Athena, select query editor, and select the Database you just created.&lt;/p&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="AWS" /><category term="S3" /><category term="AWS RDS" /><category term="Athena" /><summary type="html">This is useful for anyone who’s working with or recently setup AWS RDS. I’ll only consider working with the Console instead of the CLI. This works for most of the big name relational OLTP databases: MariaDB MySQL PostgreSQL</summary></entry><entry><title type="html">Apache Airflow: SnowflakeOperator</title><link href="https://deramirez1.github.io/snowflake-apache-airflow/" rel="alternate" type="text/html" title="Apache Airflow: SnowflakeOperator" /><published>2022-01-30T03:48:20-05:00</published><updated>2022-01-30T03:48:20-05:00</updated><id>https://deramirez1.github.io/snowflake-apache-airflow</id><content type="html" xml:base="https://deramirez1.github.io/snowflake-apache-airflow/">&lt;p&gt;If you run into this problem after downloading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt; for Apache Airflow:
 &lt;img src=&quot;/assets/images/airflow-error.PNG&quot; alt=&quot;Airflow Error&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;That means you probably encountered this error while downloading &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt;:&lt;/p&gt;
@@ -11,7 +109,7 @@
 
 &lt;p&gt;For me, what fixed the issue was downgraing both &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sqlalchemy&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;snowflake-sqlalchemy&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pip3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;snowflake&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqlalchemy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqlalchemy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Apache Airflow" /><category term="Snowflake" /><summary type="html">If you run into this problem after downloading snowflake-sqlalchemy for Apache Airflow:</summary></entry><entry><title type="html">Brilliant.org: Euler’s Totient Function</title><link href="http://localhost:4000/brilliant-eulers-totient-function/" rel="alternate" type="text/html" title="Brilliant.org: Euler’s Totient Function" /><published>2020-06-08T10:30:20-04:00</published><updated>2020-06-08T10:30:20-04:00</updated><id>http://localhost:4000/brilliant-eulers-totient-function</id><content type="html" xml:base="http://localhost:4000/brilliant-eulers-totient-function/">&lt;p&gt;Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the &lt;a href=&quot;https://brilliant.org/wiki/eulers-totient-function/&quot;&gt;wiki&lt;/a&gt;. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Apache Airflow" /><category term="Snowflake" /><summary type="html">If you run into this problem after downloading snowflake-sqlalchemy for Apache Airflow:</summary></entry><entry><title type="html">Brilliant.org: Euler’s Totient Function</title><link href="https://deramirez1.github.io/brilliant-eulers-totient-function/" rel="alternate" type="text/html" title="Brilliant.org: Euler’s Totient Function" /><published>2020-06-08T10:30:20-04:00</published><updated>2020-06-08T10:30:20-04:00</updated><id>https://deramirez1.github.io/brilliant-eulers-totient-function</id><content type="html" xml:base="https://deramirez1.github.io/brilliant-eulers-totient-function/">&lt;p&gt;Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the &lt;a href=&quot;https://brilliant.org/wiki/eulers-totient-function/&quot;&gt;wiki&lt;/a&gt;. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.&lt;/p&gt;
 
 &lt;p&gt;For example:&lt;br /&gt;
 \(25 = 5^2\) and \(25(1)\)&lt;br /&gt;
@@ -154,7 +252,7 @@
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;588 ns ± 5.29 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;I used SymPy’s factorint function to get the factors for \(n\). Then I applied SymPy’s formula for finding all the primes factors of \(n\). For example, \(3\) is a factor of \(15(1001)\). Looping through each factor and it’s power, multiplying \(t\) each time it passes, produces the correct number of primes from \(1\) to \(n\). This is the same equation SymPy uses. It’s still slightly slower than the original SymPy function but it’s still significantly faster than the original, around a million times.&lt;/p&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Math" /><category term="Modular Arithmetic" /><summary type="html">Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the wiki. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.</summary></entry><entry><title type="html">Brilliant.org: Spherical Geometry</title><link href="http://localhost:4000/brilliant-spherical-geometry/" rel="alternate" type="text/html" title="Brilliant.org: Spherical Geometry" /><published>2020-05-30T10:30:20-04:00</published><updated>2020-05-30T10:30:20-04:00</updated><id>http://localhost:4000/brilliant-spherical-geometry</id><content type="html" xml:base="http://localhost:4000/brilliant-spherical-geometry/">&lt;p&gt;I’m quite the avid proponent of &lt;a href=&quot;https://brilliant.org/&quot;&gt;Brilliant.org&lt;/a&gt;. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.&lt;/p&gt;
+&lt;p&gt;I used SymPy’s factorint function to get the factors for \(n\). Then I applied SymPy’s formula for finding all the primes factors of \(n\). For example, \(3\) is a factor of \(15(1001)\). Looping through each factor and it’s power, multiplying \(t\) each time it passes, produces the correct number of primes from \(1\) to \(n\). This is the same equation SymPy uses. It’s still slightly slower than the original SymPy function but it’s still significantly faster than the original, around a million times.&lt;/p&gt;</content><author><name>David Ramirez</name><email>deramirez1@gmail.com</email></author><category term="Math" /><category term="Modular Arithmetic" /><summary type="html">Number theory is a very interesting field of mathematics I’ve only recently became interested in. This week it looks like Euler’s Totient Function will be the topic, as always you can follow along at the wiki. Euler’s Totient Functions (also called the Phi function) counts the number of positive integers less than \(n\) that are coprime to \(n\). Coprime is just a way of saying that any pair of two numbers only share 1 as their greated common divisor.</summary></entry><entry><title type="html">Brilliant.org: Spherical Geometry</title><link href="https://deramirez1.github.io/brilliant-spherical-geometry/" rel="alternate" type="text/html" title="Brilliant.org: Spherical Geometry" /><published>2020-05-30T10:30:20-04:00</published><updated>2020-05-30T10:30:20-04:00</updated><id>https://deramirez1.github.io/brilliant-spherical-geometry</id><content type="html" xml:base="https://deramirez1.github.io/brilliant-spherical-geometry/">&lt;p&gt;I’m quite the avid proponent of &lt;a href=&quot;https://brilliant.org/&quot;&gt;Brilliant.org&lt;/a&gt;. It’s a great way to refine, build, and practice new mathematical concepts. I’m going to do a series of Brillant posts, one every week, on a very specific topic in math. This week, and post number 1, is spherical geometry.&lt;/p&gt;
 
 &lt;p&gt;If you want to follow along you can refer to this &lt;a href=&quot;https://brilliant.org/wiki/spherical-geometry/&quot;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
 
